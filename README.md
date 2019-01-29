@@ -1,2 +1,2 @@
-# glass_breaker
+# h5g-glass-breaker
 画面外から流れてくるガラスをタップで破壊するゲームです。
