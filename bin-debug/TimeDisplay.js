@@ -43,14 +43,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Main = (function (_super) {
-    __extends(Main, _super);
-    function Main() {
+var TimeDisplay = (function (_super) {
+    __extends(TimeDisplay, _super);
+    function TimeDisplay() {
         var _this = _super.call(this) || this;
         /**
-         * 変数まとめ
+         * 変数
          */
-        _this.stageLevel = StageLevel.STAGE1;
+        _this.leftTime = 60;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
@@ -68,14 +68,14 @@ var Main = (function (_super) {
     /**
      *  リソース準備後にゲームシーンを作成する
     */
-    Main.prototype.runGame = function () {
+    TimeDisplay.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        this.createGameScene();
+                        this.timeDisplay();
                         return [2 /*return*/];
                 }
             });
@@ -85,7 +85,7 @@ var Main = (function (_super) {
      * リソース読み込み準備
      * default.res.jsonから画像データを取得する為のRES設定を行う
     */
-    Main.prototype.loadResource = function () {
+    TimeDisplay.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
             var e_1;
             return __generator(this, function (_a) {
@@ -111,31 +111,32 @@ var Main = (function (_super) {
     /**
      * 引数のnameからBitmapデータを取得する。name属性の参考：resources/resource.json
      */
-    Main.prototype.createBitmapByName = function (name) {
+    TimeDisplay.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);
         result.texture = texture;
         return result;
     };
     /**
-     * ゲームシーンの作成
+     * Timerの生成
      */
-    Main.prototype.createGameScene = function () {
-        //Instance of background
-        var createGameStage = new CreateGameStage(this.stageLevel);
-        this.stage.addChild(createGameStage);
-        //Instance of glassPlate
-        var generateGameStage = new GeneratePlate();
-        this.stage.addChild(generateGameStage);
-        //Instance of Time
-        var timeDisplay = new TimeDisplay();
-        this.stage.addChild(timeDisplay);
+    TimeDisplay.prototype.timeDisplay = function () {
+        this.timeText = new egret.TextField();
+        this.timeText.text = this.leftTime.toString();
+        this.addChild(this.timeText);
+        var timer = new egret.Timer(1000, 0);
+        timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
+        timer.start();
     };
-    return Main;
+    /**
+     * 残り時間を減らす
+     */
+    TimeDisplay.prototype.decreaseTime = function () {
+        this.leftTime -= 1;
+        this.timeText.text = this.leftTime.toString();
+        return false;
+    };
+    return TimeDisplay;
 }(egret.DisplayObjectContainer));
-__reflect(Main.prototype, "Main");
-var StageLevel;
-(function (StageLevel) {
-    StageLevel[StageLevel["STAGE1"] = 0] = "STAGE1";
-})(StageLevel || (StageLevel = {}));
-//# sourceMappingURL=Main.js.map
+__reflect(TimeDisplay.prototype, "TimeDisplay");
+//# sourceMappingURL=TimeDisplay.js.map

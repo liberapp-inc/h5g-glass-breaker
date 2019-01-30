@@ -1,10 +1,8 @@
-　class Main extends egret.DisplayObjectContainer {
-
-        public constructor() {
+　class TimeDisplay extends egret.DisplayObjectContainer {
+    constructor() {
         super();
         this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
     }
-
     /**
      * ステージ追加時に一度発生する
      * (UILayerクラスの継承元(Groupクラス)のメソッド)
@@ -22,7 +20,7 @@
     */
     private async runGame() {
         await this.loadResource()
-        this.createGameScene();
+        this.timeDisplay();
     }
 
     /** 
@@ -50,29 +48,35 @@
     }
 
     /**
-     * 変数まとめ
+     * 変数
      */
-    private stageLevel : number = StageLevel.STAGE1;
+    private leftTime : number = 60;
+    private timeText : egret.TextField;
 
     /**
-     * ゲームシーンの作成
+     * Timerの生成
      */
-    protected createGameScene(): void {
+    protected timeDisplay(): void {
+        this.timeText = new egret.TextField();
+        this.timeText.text = this.leftTime.toString();
+        this.addChild(this.timeText);
 
-        //Instance of background
-        const createGameStage = new CreateGameStage(this.stageLevel);
-        this.stage.addChild(createGameStage);
+        let timer:egret.Timer = new egret.Timer(1000,0);
+        timer.addEventListener(egret.TimerEvent.TIMER,this.decreaseTime,this);
+        timer.start();
 
-        //Instance of glassPlate
-        const generateGameStage = new GeneratePlate();
-        this.stage.addChild(generateGameStage);
 
-        //Instance of Time
-        const timeDisplay = new TimeDisplay();
-        this.stage.addChild(timeDisplay);
     }
-}
 
-enum StageLevel{
-    STAGE1,
+    /**
+     * 残り時間を減らす
+     */
+    public decreaseTime() : boolean{
+        this.leftTime -= 1;
+        this.timeText.text = this.leftTime.toString();
+        return false;
+
+    }
+
+
 }

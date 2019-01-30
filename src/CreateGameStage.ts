@@ -1,7 +1,10 @@
-　class Main extends egret.DisplayObjectContainer {
+　class CreateGameStage extends egret.DisplayObjectContainer {
 
-        public constructor() {
+    //Get stageLevel
+    private stageLevel : number;
+    constructor(stageLevel : number) {
         super();
+        this.stageLevel = stageLevel;
         this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
     }
 
@@ -49,30 +52,25 @@
         return result;
     }
 
-    /**
-     * 変数まとめ
-     */
-    private stageLevel : number = StageLevel.STAGE1;
 
     /**
      * ゲームシーンの作成
      */
     protected createGameScene(): void {
 
-        //Instance of background
-        const createGameStage = new CreateGameStage(this.stageLevel);
-        this.stage.addChild(createGameStage);
+        switch(this.stageLevel){
+            case StageLevel.STAGE1:
+                // 背景画像の設定/描画
+                let background = this.createBitmapByName("background_png");
+                let stageW = this.stage.stageWidth;
+                let stageH = this.stage.stageHeight;
+                background.width = stageW;
+                background.height = stageH;
+                this.addChild(background);
+            break;
+        }
 
-        //Instance of glassPlate
-        const generateGameStage = new GeneratePlate();
-        this.stage.addChild(generateGameStage);
 
-        //Instance of Time
-        const timeDisplay = new TimeDisplay();
-        this.stage.addChild(timeDisplay);
+
     }
-}
-
-enum StageLevel{
-    STAGE1,
 }
