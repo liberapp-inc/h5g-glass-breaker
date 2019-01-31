@@ -48,10 +48,14 @@ var GeneratePlate = (function (_super) {
     function GeneratePlate() {
         var _this = _super.call(this) || this;
         /**
-         * ガラス関連の変数
+         * propaty of glass
          */
         _this.glassPlateType = GlassPlateType.GLASS;
+        //private glassPlateImagePositionX : number;
+        //private glassPlateImagePositionY : number;
         _this.glassPlateMoveFlag = false; //trueで移動可能
+        _this.glassPlateMoveSpeedX = 1;
+        _this.glassPlateMoveSpeedY = 1;
         /**
          * Fade broken glass
          */
@@ -108,14 +112,57 @@ var GeneratePlate = (function (_super) {
      * ガラスの生成
      */
     GeneratePlate.prototype.generateGlassPlate = function (event) {
+        // ガラスの位置や移動方向を決定
+        this.decideProperty();
+        //画面にタッチした瞬間にtouchMethodを実行
+        this.glassPlateImage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.glassTouch, this);
+        egret.startTick(this.moveGlassPlate, this);
+    };
+    /**
+     * ガラスの生成位置と動く方向を決定
+     * Decide the direction and position of the glasses
+     */
+    GeneratePlate.prototype.decideProperty = function () {
+        // 描画
+        this.glassPlateImage = this.createBitmapByName("glass_plate_png");
+        this.glassPlateImage.scaleX = 0.5;
+        this.glassPlateImage.scaleY = 0.5;
+        // 移動方向の乱数
+        this.glassPlateImagePosition = 0 + Math.floor(Math.random() * 4); //0~3
+        //this.glassPlateMoveDirection = 0 + Math.floor( Math.random() * 4 );
+        //ガラスの画像が画面外に生成されないように補正値
+        var dx = this.glassPlateImage.width * this.glassPlateImage.scaleX;
+        var dy = this.glassPlateImage.height * this.glassPlateImage.scaleY;
+        //ガラスの出現位置の決定
+        switch (this.glassPlateImagePosition) {
+            case GlassPosition.UP:
+                this.glassPlateImage.x = 0 + Math.floor(Math.random() * (this.stage.stageWidth + 1)) - dx;
+                this.glassPlateImage.y = 0 - dy;
+                this.glassPlateMoveSpeedX = 0;
+                this.glassPlateMoveSpeedY = 1;
+                break;
+            case GlassPosition.DOWN:
+                this.glassPlateImage.x = 0 + Math.floor(Math.random() * (this.stage.stageWidth + 1)) - dx;
+                this.glassPlateImage.y = this.stage.stageHeight;
+                this.glassPlateMoveSpeedX = 0;
+                this.glassPlateMoveSpeedY = -1;
+                break;
+            case GlassPosition.RIGHT:
+                this.glassPlateImage.x = this.stage.stageWidth;
+                this.glassPlateImage.y = 0 + Math.floor(Math.random() * (this.stage.stageHeight + 1)) - dy;
+                this.glassPlateMoveSpeedX = -1;
+                this.glassPlateMoveSpeedY = 0;
+                break;
+            case GlassPosition.LEFT:
+                this.glassPlateImage.x = 0 - dx;
+                this.glassPlateImage.y = 0 + Math.floor(Math.random() * (this.stage.stageHeight + 1)) - dy;
+                this.glassPlateMoveSpeedX = 1;
+                this.glassPlateMoveSpeedY = 0;
+                break;
+        }
+        //各プレートの種類ごとの挙動の決定
         switch (this.glassPlateType) {
             case GlassPlateType.GLASS:
-                // 描画
-                this.glassPlateImage = this.createBitmapByName("glass_plate_png");
-                this.glassPlateImage.scaleX = 0.5;
-                this.glassPlateImage.scaleY = 0.5;
-                /*                this.glassPlateImage.x = 0;
-                                this.glassPlateImage.y = 0;*/
                 this.glassPlateMoveFlag = true;
                 //Enable touchEvent
                 this.glassPlateImage.touchEnabled = true;
@@ -123,26 +170,47 @@ var GeneratePlate = (function (_super) {
                 this.addChild(this.glassPlateImage);
                 break;
         }
-        //画面にタッチした瞬間にtouchMethodを実行
-        this.glassPlateImage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.glassTouch, this);
-        egret.startTick(this.moveGlassPlate, this);
     };
     /**
+     * ガラスを移動させる
      * Move glasses
      */
     GeneratePlate.prototype.moveGlassPlate = function () {
         if (this.glassPlateMoveFlag == true) {
-            this.glassPlateImage.x += 1;
-            this.glassPlateImage.y += 1;
+            //ガラスの出現位置の決定
+            switch (this.glassPlateImagePosition) {
+                case GlassPosition.UP:
+                    this.glassPlateMoveSpeedX = 0;
+                    this.glassPlateMoveSpeedY = 1;
+                    break;
+                case GlassPosition.DOWN:
+                    this.glassPlateMoveSpeedX = 0;
+                    this.glassPlateMoveSpeedY = -1;
+                    break;
+                case GlassPosition.RIGHT:
+                    this.glassPlateMoveSpeedX = -1;
+                    this.glassPlateMoveSpeedY = 0;
+                    break;
+                case GlassPosition.LEFT:
+                    this.glassPlateMoveSpeedX = 1;
+                    this.glassPlateMoveSpeedY = 0;
+                    break;
+            }
+            this.glassPlateImage.x += this.glassPlateMoveSpeedX;
+            this.glassPlateImage.y += this.glassPlateMoveSpeedY;
         }
         return false;
     };
+    /**
+     * ガラスの動きを止める
+     */
     GeneratePlate.prototype.moveStop = function () {
         this.glassPlateMoveFlag = false; //Enabled move
         this.glassPlateImage.touchEnabled = false; //Enabled touch
         return false;
     };
     /**
+     * タッチイベント
      * TouchEvent
      */
     GeneratePlate.prototype.glassTouch = function (evt) {
@@ -179,7 +247,7 @@ var GeneratePlate = (function (_super) {
                 this.glassPlateImage.alpha = 0;
                 egret.stopTick(this.fadeMethod, this.glassPlateImage);
                 // stopTickした後にremoveChildしているけれど、tickが続いているのかnull でエラーになる
-                // this.removeChild(this);
+                //this.removeChild(this.glassPlateImage);
             }
         }
         return false;
@@ -193,4 +261,20 @@ var GlassPlateType;
     GlassPlateType[GlassPlateType["GLASS"] = 0] = "GLASS";
     GlassPlateType[GlassPlateType["IRON"] = 1] = "IRON";
 })(GlassPlateType || (GlassPlateType = {}));
+//ガラスが移動する方向
+var MoveDirection;
+(function (MoveDirection) {
+    MoveDirection[MoveDirection["UP"] = 0] = "UP";
+    MoveDirection[MoveDirection["DOWN"] = 1] = "DOWN";
+    MoveDirection[MoveDirection["RIGHT"] = 2] = "RIGHT";
+    MoveDirection[MoveDirection["LEFT"] = 3] = "LEFT";
+})(MoveDirection || (MoveDirection = {}));
+// ガラスが出現する位置
+var GlassPosition;
+(function (GlassPosition) {
+    GlassPosition[GlassPosition["UP"] = 0] = "UP";
+    GlassPosition[GlassPosition["DOWN"] = 1] = "DOWN";
+    GlassPosition[GlassPosition["RIGHT"] = 2] = "RIGHT";
+    GlassPosition[GlassPosition["LEFT"] = 3] = "LEFT";
+})(GlassPosition || (GlassPosition = {}));
 //# sourceMappingURL=GeneratePlate.js.map

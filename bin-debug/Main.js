@@ -126,11 +126,8 @@ var Main = (function (_super) {
         this.stage.addChild(createGameStage);
         //Instance of glassPlate
         var glassEvent;
-        //this.generatePlate.generateGlassPlate(glassEvent);
-        // this.stage.addChild(this.generatePlate);
         //Instance of Time
         var timeDisplay = new TimeDisplay();
-        //timeDisplay.runGame();
         this.stage.addChild(timeDisplay);
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
@@ -140,9 +137,7 @@ var Main = (function (_super) {
      * Generate Glass Plates
      */
     Main.prototype.generatePlates = function () {
-        // let glassEvent : egret.Event;
         var generatePlate = new GeneratePlate(); //プレートを生み出すクラスの設定
-        //generatePlate.generateGlassPlate(this.touchGlassEvent);
         this.stage.addChild(generatePlate);
     };
     return Main;
