@@ -2,16 +2,17 @@
 
         public constructor() {
         super();
+        this.once(egret.Event.ADDED_TO_STAGE, this.generateGlassPlate, this);
     }
 
 
     /** 
      *  リソース準備後にゲームシーンを作成する
     */
-    public async runGame(event:egret.Event) {
+/*    public async runGame(event:egret.Event) {
         await this.loadResource()
         this.generateGlassPlate(event);
-    }
+    }*/
 
     /** 
      * リソース読み込み準備
@@ -55,7 +56,6 @@
      * ガラスの生成
      */
     public generateGlassPlate(event:egret.Event): void {
-        this.once(egret.Event.ADDED_TO_STAGE, this.runGame, this);
         
         switch(this.glassPlateType){
             case GlassPlateType.GLASS:
@@ -87,6 +87,7 @@
      */
     private moveGlassPlate() : boolean{
         if(this.glassPlateMoveFlag == true){
+            
             this.glassPlateImage.x += 1;
             this.glassPlateImage.y += 1;
             

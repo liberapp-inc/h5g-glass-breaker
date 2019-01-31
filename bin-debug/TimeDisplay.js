@@ -51,6 +51,7 @@ var TimeDisplay = (function (_super) {
          * 変数
          */
         _this.leftTime = 60;
+        _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
         /*        this.runGame().catch(e => {
                     console.log(e);
@@ -112,7 +113,6 @@ var TimeDisplay = (function (_super) {
      * Timerの生成
      */
     TimeDisplay.prototype.timeDisplay = function () {
-        this.once(egret.Event.ADDED_TO_STAGE, this.runGame, this);
         this.timeText = new egret.TextField();
         this.timeText.text = this.leftTime.toString();
         this.addChild(this.timeText);

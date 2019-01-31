@@ -58,24 +58,16 @@ var GeneratePlate = (function (_super) {
         _this.fadeTime = 0;
         _this.fadeSpeed = 0.01;
         _this.fadeFlag = false;
+        _this.once(egret.Event.ADDED_TO_STAGE, _this.generateGlassPlate, _this);
         return _this;
     }
     /**
      *  リソース準備後にゲームシーンを作成する
     */
-    GeneratePlate.prototype.runGame = function (event) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadResource()];
-                    case 1:
-                        _a.sent();
-                        this.generateGlassPlate(event);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
+    /*    public async runGame(event:egret.Event) {
+            await this.loadResource()
+            this.generateGlassPlate(event);
+        }*/
     /**
      * リソース読み込み準備
      * default.res.jsonから画像データを取得する為のRES設定を行う
@@ -116,7 +108,6 @@ var GeneratePlate = (function (_super) {
      * ガラスの生成
      */
     GeneratePlate.prototype.generateGlassPlate = function (event) {
-        this.once(egret.Event.ADDED_TO_STAGE, this.runGame, this);
         switch (this.glassPlateType) {
             case GlassPlateType.GLASS:
                 // 描画

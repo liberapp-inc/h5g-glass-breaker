@@ -1,6 +1,7 @@
 　class TimeDisplay extends egret.DisplayObjectContainer {
     constructor() {
         super();
+        this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
 /*        this.runGame().catch(e => {
             console.log(e);
         })*/
@@ -49,7 +50,6 @@
      * Timerの生成
      */
     protected timeDisplay(): void {
-        this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
         this.timeText = new egret.TextField();
         this.timeText.text = this.leftTime.toString();
         this.addChild(this.timeText);
