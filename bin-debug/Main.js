@@ -50,7 +50,8 @@ var Main = (function (_super) {
         /**
          * 変数まとめ
          */
-        _this.stageLevel = StageLevel.STAGE1;
+        _this.stageLevel = StageLevel.STAGE1; //ステージレベルの設定
+        _this.generatePlate = new GeneratePlate(); //プレートを生み出すクラスの設定
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
@@ -125,11 +126,24 @@ var Main = (function (_super) {
         var createGameStage = new CreateGameStage(this.stageLevel);
         this.stage.addChild(createGameStage);
         //Instance of glassPlate
-        var generateGameStage = new GeneratePlate();
-        this.stage.addChild(generateGameStage);
+        var glassEvent;
+        this.generatePlate.runGame(glassEvent);
+        this.stage.addChild(this.generatePlate);
         //Instance of Time
         var timeDisplay = new TimeDisplay();
+        timeDisplay.runGame();
         this.stage.addChild(timeDisplay);
+        var timer = new egret.Timer(1000, 0);
+        timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
+        timer.start();
+    };
+    /**
+     * Generate Glass Plates
+     */
+    Main.prototype.generatePlates = function () {
+        // let glassEvent : egret.Event;
+        this.generatePlate.runGame(this.touchGlassEvent);
+        this.stage.addChild(this.generatePlate);
     };
     return Main;
 }(egret.DisplayObjectContainer));

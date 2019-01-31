@@ -1,24 +1,16 @@
-　class GeneratePlate extends eui.UILayer {
+　class GeneratePlate extends  egret.DisplayObjectContainer {
 
-    /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-    protected createChildren(): void {
-        super.createChildren();
-        
-        this.runGame().catch(e => {
-            console.log(e);
-        })
-        this.once(egret.Event.ADDED_TO_STAGE, this.generateGlassPlate, this);
+        public constructor() {
+        super();
     }
+
 
     /** 
      *  リソース準備後にゲームシーンを作成する
     */
-    private async runGame() {
+    public async runGame(event:egret.Event) {
         await this.loadResource()
-        //this.generateGlassPlate();
+        this.generateGlassPlate(event);
     }
 
     /** 
@@ -48,18 +40,25 @@
     /**
      * ガラス関連の変数
      */
-    private glassPlate : number = GlassPlate.GLASS;
+    private glassPlateType : number = GlassPlateType.GLASS;
     private glassPlateImage : egret.Bitmap;
     private glassPlateImagePositionX : number;
     private glassPlateImagePositionY : number;
     private glassPlateMoveFlag : boolean = false;//trueで移動可能
+
+    /**
+     * 時間関連
+     */
+    private leftTime :number;
     
     /**
      * ガラスの生成
      */
-    protected generateGlassPlate(event:egret.Event): void {
-        switch(this.glassPlate){
-            case GlassPlate.GLASS:
+    public generateGlassPlate(event:egret.Event): void {
+        this.once(egret.Event.ADDED_TO_STAGE, this.runGame, this);
+        
+        switch(this.glassPlateType){
+            case GlassPlateType.GLASS:
                 // 描画
                 this.glassPlateImage = this.createBitmapByName("glass_plate_png");
                 this.glassPlateImage.scaleX = 0.5;
@@ -75,6 +74,7 @@
 
             break;
         }
+
 
         //画面にタッチした瞬間にtouchMethodを実行
         this.glassPlateImage.addEventListener( egret.TouchEvent.TOUCH_BEGIN, this.glassTouch, this );
@@ -137,7 +137,6 @@
     private fadeFlag : boolean = false;
 
     private fadeBrokenGlass(){
-        console.log("b");
         if(this.fadeFlag == false){
             this.fadeTime = egret.getTimer();
             egret.startTick(this.fadeMethod,this);
@@ -175,7 +174,7 @@
 
 // GeneratePlate Class　ここまで
 
-enum GlassPlate{
+enum GlassPlateType{
     GLASS,
     IRON,
 }

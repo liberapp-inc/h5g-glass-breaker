@@ -6,19 +6,11 @@
         super();
         this.stageLevel = stageLevel;
         this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
+/*        this.runGame().catch(e => {
+            console.log(e);
+        })*/
     }
 
-    /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-/*    protected createChildren(): void {
-        super.createChildren();
-        
-        this.runGame().catch(e => {
-            console.log(e);
-        })
-    }*/
 
     /** 
      *  リソース準備後にゲームシーンを作成する
@@ -56,7 +48,7 @@
     /**
      * ゲームシーンの作成
      */
-    protected createGameScene(): void {
+    public createGameScene(): void {
 
         switch(this.stageLevel){
             case StageLevel.STAGE1:

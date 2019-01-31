@@ -46,11 +46,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var GeneratePlate = (function (_super) {
     __extends(GeneratePlate, _super);
     function GeneratePlate() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
         /**
          * ガラス関連の変数
          */
-        _this.glassPlate = GlassPlate.GLASS;
+        _this.glassPlateType = GlassPlateType.GLASS;
         _this.glassPlateMoveFlag = false; //trueで移動可能
         /**
          * Fade broken glass
@@ -61,28 +61,16 @@ var GeneratePlate = (function (_super) {
         return _this;
     }
     /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-    GeneratePlate.prototype.createChildren = function () {
-        _super.prototype.createChildren.call(this);
-        this.runGame().catch(function (e) {
-            console.log(e);
-        });
-        this.once(egret.Event.ADDED_TO_STAGE, this.generateGlassPlate, this);
-    };
-    /**
      *  リソース準備後にゲームシーンを作成する
     */
-    GeneratePlate.prototype.runGame = function () {
+    GeneratePlate.prototype.runGame = function (event) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadResource()
-                        //this.generateGlassPlate();
-                    ];
+                    case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
+                        this.generateGlassPlate(event);
                         return [2 /*return*/];
                 }
             });
@@ -128,8 +116,9 @@ var GeneratePlate = (function (_super) {
      * ガラスの生成
      */
     GeneratePlate.prototype.generateGlassPlate = function (event) {
-        switch (this.glassPlate) {
-            case GlassPlate.GLASS:
+        this.once(egret.Event.ADDED_TO_STAGE, this.runGame, this);
+        switch (this.glassPlateType) {
+            case GlassPlateType.GLASS:
                 // 描画
                 this.glassPlateImage = this.createBitmapByName("glass_plate_png");
                 this.glassPlateImage.scaleX = 0.5;
@@ -183,7 +172,6 @@ var GeneratePlate = (function (_super) {
         this.fadeBrokenGlass();
     };
     GeneratePlate.prototype.fadeBrokenGlass = function () {
-        console.log("b");
         if (this.fadeFlag == false) {
             this.fadeTime = egret.getTimer();
             egret.startTick(this.fadeMethod, this);
@@ -206,12 +194,12 @@ var GeneratePlate = (function (_super) {
         return false;
     };
     return GeneratePlate;
-}(eui.UILayer));
+}(egret.DisplayObjectContainer));
 __reflect(GeneratePlate.prototype, "GeneratePlate");
 // GeneratePlate Class　ここまで
-var GlassPlate;
-(function (GlassPlate) {
-    GlassPlate[GlassPlate["GLASS"] = 0] = "GLASS";
-    GlassPlate[GlassPlate["IRON"] = 1] = "IRON";
-})(GlassPlate || (GlassPlate = {}));
+var GlassPlateType;
+(function (GlassPlateType) {
+    GlassPlateType[GlassPlateType["GLASS"] = 0] = "GLASS";
+    GlassPlateType[GlassPlateType["IRON"] = 1] = "IRON";
+})(GlassPlateType || (GlassPlateType = {}));
 //# sourceMappingURL=GeneratePlate.js.map

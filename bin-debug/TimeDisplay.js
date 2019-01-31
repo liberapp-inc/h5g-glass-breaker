@@ -51,20 +51,11 @@ var TimeDisplay = (function (_super) {
          * 変数
          */
         _this.leftTime = 60;
-        _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
+        /*        this.runGame().catch(e => {
+                    console.log(e);
+                })*/
     }
-    /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-    /*    protected createChildren(): void {
-            super.createChildren();
-            
-            this.runGame().catch(e => {
-                console.log(e);
-            })
-        }*/
     /**
      *  リソース準備後にゲームシーンを作成する
     */
@@ -121,6 +112,7 @@ var TimeDisplay = (function (_super) {
      * Timerの生成
      */
     TimeDisplay.prototype.timeDisplay = function () {
+        this.once(egret.Event.ADDED_TO_STAGE, this.runGame, this);
         this.timeText = new egret.TextField();
         this.timeText.text = this.leftTime.toString();
         this.addChild(this.timeText);
@@ -136,6 +128,23 @@ var TimeDisplay = (function (_super) {
         this.timeText.text = this.leftTime.toString();
         return false;
     };
+    Object.defineProperty(TimeDisplay.prototype, "getLeftTime", {
+        /**
+         * Get Set
+         */
+        get: function () {
+            return this.leftTime;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TimeDisplay.prototype, "setLeftTime", {
+        set: function (value) {
+            this.leftTime = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return TimeDisplay;
 }(egret.DisplayObjectContainer));
 __reflect(TimeDisplay.prototype, "TimeDisplay");

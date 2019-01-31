@@ -1,24 +1,16 @@
 　class TimeDisplay extends egret.DisplayObjectContainer {
     constructor() {
         super();
-        this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
-    }
-    /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-/*    protected createChildren(): void {
-        super.createChildren();
-        
-        this.runGame().catch(e => {
+/*        this.runGame().catch(e => {
             console.log(e);
-        })
-    }*/
+        })*/
+        
+    }
 
     /** 
      *  リソース準備後にゲームシーンを作成する
     */
-    private async runGame() {
+    public async runGame() {
         await this.loadResource()
         this.timeDisplay();
     }
@@ -57,6 +49,7 @@
      * Timerの生成
      */
     protected timeDisplay(): void {
+        this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
         this.timeText = new egret.TextField();
         this.timeText.text = this.leftTime.toString();
         this.addChild(this.timeText);
@@ -73,10 +66,23 @@
      */
     public decreaseTime() : boolean{
         this.leftTime -= 1;
-        this.timeText.text = this.leftTime.toString();
+        this.timeText.text = this.leftTime.toString();       
         return false;
 
     }
+
+
+    /**
+     * Get Set
+     */
+    get getLeftTime() : number{
+        return this.leftTime;
+    }
+    set setLeftTime(value : number){
+        this.leftTime = value;
+    }
+
+    
 
 
 }

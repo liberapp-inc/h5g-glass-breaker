@@ -52,25 +52,45 @@
     /**
      * 変数まとめ
      */
-    private stageLevel : number = StageLevel.STAGE1;
+    private stageLevel : number = StageLevel.STAGE1;//ステージレベルの設定
+    private generatePlate = new GeneratePlate();//プレートを生み出すクラスの設定
+    private touchGlassEvent : egret.Event;//ガラスをタッチした時のイベント
 
     /**
      * ゲームシーンの作成
      */
-    protected createGameScene(): void {
+    private createGameScene(): void {
 
         //Instance of background
         const createGameStage = new CreateGameStage(this.stageLevel);
         this.stage.addChild(createGameStage);
 
         //Instance of glassPlate
-        const generateGameStage = new GeneratePlate();
-        this.stage.addChild(generateGameStage);
+        let glassEvent : egret.Event;
+        this.generatePlate.runGame(glassEvent);
+        this.stage.addChild(this.generatePlate);
 
         //Instance of Time
         const timeDisplay = new TimeDisplay();
+        timeDisplay.runGame();
         this.stage.addChild(timeDisplay);
+
+        let timer:egret.Timer = new egret.Timer(1000,0);
+        timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+        timer.start();
+
+        
     }
+
+    /**
+     * Generate Glass Plates
+     */
+    public generatePlates(){
+        // let glassEvent : egret.Event;
+        this.generatePlate.runGame(this.touchGlassEvent);
+        this.stage.addChild(this.generatePlate);
+    }
+
 }
 
 enum StageLevel{
