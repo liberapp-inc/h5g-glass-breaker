@@ -47,10 +47,6 @@ var TimeDisplay = (function (_super) {
     __extends(TimeDisplay, _super);
     function TimeDisplay() {
         var _this = _super.call(this) || this;
-        /**
-         * 変数
-         */
-        _this.leftTime = 60;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
         /*        this.runGame().catch(e => {
@@ -114,7 +110,7 @@ var TimeDisplay = (function (_super) {
      */
     TimeDisplay.prototype.timeDisplay = function () {
         this.timeText = new egret.TextField();
-        this.timeText.text = this.leftTime.toString();
+        this.timeText.text = TimeDisplay.leftTime.toString();
         this.addChild(this.timeText);
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
@@ -124,27 +120,14 @@ var TimeDisplay = (function (_super) {
      * 残り時間を減らす
      */
     TimeDisplay.prototype.decreaseTime = function () {
-        this.leftTime -= 1;
-        this.timeText.text = this.leftTime.toString();
+        TimeDisplay.leftTime -= 1;
+        this.timeText.text = TimeDisplay.leftTime.toString();
         return false;
     };
-    Object.defineProperty(TimeDisplay.prototype, "getLeftTime", {
-        /**
-         * Get Set
-         */
-        get: function () {
-            return this.leftTime;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TimeDisplay.prototype, "setLeftTime", {
-        set: function (value) {
-            this.leftTime = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * 変数
+     */
+    TimeDisplay.leftTime = 60;
     return TimeDisplay;
 }(egret.DisplayObjectContainer));
 __reflect(TimeDisplay.prototype, "TimeDisplay");

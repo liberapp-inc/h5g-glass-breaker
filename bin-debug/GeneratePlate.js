@@ -48,6 +48,7 @@ var GeneratePlate = (function (_super) {
     function GeneratePlate() {
         var _this = _super.call(this) || this;
         /**
+         * ガラスのプロパティ
          * propaty of glass
          */
         _this.glassPlateType = GlassPlateType.GLASS;
@@ -130,7 +131,7 @@ var GeneratePlate = (function (_super) {
         // 移動方向の乱数
         this.glassPlateImagePosition = 0 + Math.floor(Math.random() * 4); //0~3
         //this.glassPlateMoveDirection = 0 + Math.floor( Math.random() * 4 );
-        //ガラスの画像が画面外に生成されないように補正値
+        //ガラスの画像が画面外に生成されないようにする補正値
         var dx = this.glassPlateImage.width * this.glassPlateImage.scaleX;
         var dy = this.glassPlateImage.height * this.glassPlateImage.scaleY;
         //ガラスの出現位置の決定
@@ -235,6 +236,8 @@ var GeneratePlate = (function (_super) {
             this.fadeTime = egret.getTimer();
             egret.startTick(this.fadeMethod, this);
             this.fadeFlag = true;
+            GeneratePlate.glassBreakNumber += 1;
+            console.log("破壊数" + GeneratePlate.glassBreakNumber);
         }
     };
     /**
@@ -252,6 +255,38 @@ var GeneratePlate = (function (_super) {
         }
         return false;
     };
+    Object.defineProperty(GeneratePlate.prototype, "getGlassPlateMoveSpeedX", {
+        /**
+         * Get Set
+         */
+        get: function () {
+            return this.glassPlateMoveSpeedX;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GeneratePlate.prototype, "setGlassPlateMoveSpeedX", {
+        set: function (value) {
+            this.glassPlateMoveSpeedX = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GeneratePlate.prototype, "getGlassPlateMoveSpeedY", {
+        get: function () {
+            return this.glassPlateMoveSpeedY;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GeneratePlate.prototype, "setGlassPlateMoveSpeedY", {
+        set: function (value) {
+            this.glassPlateMoveSpeedY = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GeneratePlate.glassBreakNumber = 0; //ガラスを破壊した数
     return GeneratePlate;
 }(egret.DisplayObjectContainer));
 __reflect(GeneratePlate.prototype, "GeneratePlate");

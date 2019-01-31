@@ -52,43 +52,109 @@
     /**
      * 変数まとめ
      */
-    private stageLevel : number = StageLevel.STAGE1;//ステージレベルの設定
+    static stageLevel : number ;//ステージレベルの設定
     private touchGlassEvent : egret.Event;//ガラスをタッチした時のイベント
-
+    private glassGenerateSpeed : number = 1000;
+    private timer : egret.Timer;
     /**
      * ゲームシーンの作成
      */
     private createGameScene(): void {
 
         //Instance of background
-        const createGameStage = new CreateGameStage(this.stageLevel);
+        Main.stageLevel = Stage.STAGE1;
+        const createGameStage = new CreateGameStage(Main.stageLevel);
         this.stage.addChild(createGameStage);
 
-        //Instance of glassPlate
-        let glassEvent : egret.Event;
 
         //Instance of Time
         const timeDisplay = new TimeDisplay();
         this.stage.addChild(timeDisplay);
 
-        let timer:egret.Timer = new egret.Timer(1000,0);
-        timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
-        timer.start();
+        //Instance of glassPlate
+        this.timer = new egret.Timer(this.glassGenerateSpeed,0);
+        this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+        this.timer.start();
 
         
     }
 
     /**
+     * ガラスの生成
      * Generate Glass Plates
      */
     public generatePlates(){
-        let generatePlate = new GeneratePlate();//プレートを生み出すクラスの設定
+        this.changeStageLevel();
+        let generatePlate = new GeneratePlate();//プレートの生成
         this.stage.addChild(generatePlate);
     }
 
+    /**
+     * ステージレベルの変更
+     * Change stage level
+     */
+    public changeStageLevel(){
+        console.log(Main.stageLevel);
+       
+        switch(TimeDisplay.leftTime){
+            case 60:
+                Main.stageLevel = Stage.STAGE1
+                this.glassGenerateSpeed = 1000;
+            break;
+            case 55:
+                Main.stageLevel = Stage.STAGE2
+                this.glassGenerateSpeed = 800;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed,0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+                this.timer.start();
+            break;
+            case 50:
+                Main.stageLevel = Stage.STAGE3
+                this.glassGenerateSpeed = 600;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed,0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+                this.timer.start();
+            break;
+            case 45:
+                Main.stageLevel = Stage.STAGE4
+                this.glassGenerateSpeed = 2000;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed,0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+                this.timer.start();
+            break;
+            case 40:
+                Main.stageLevel = Stage.STAGE5
+                this.glassGenerateSpeed = 200;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed,0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+                this.timer.start();
+            break;
+        }
+    }
+
+    /**
+     * Get Set
+     */
+/*    get getStageLevel() : number{
+        return this.stageLevel;
+    }
+    set setStageLevel(value : number){
+        this.stageLevel = value;
+    }*/
+
 }
 
-enum StageLevel{
+// Main Class はここまで
+
+enum Stage{
     STAGE1,
+    STAGE2,
+    STAGE3,
+    STAGE4,
+    STAGE5,
 }
 

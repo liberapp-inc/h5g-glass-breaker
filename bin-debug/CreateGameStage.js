@@ -111,7 +111,7 @@ var CreateGameStage = (function (_super) {
      */
     CreateGameStage.prototype.createGameScene = function () {
         switch (this.stageLevel) {
-            case StageLevel.STAGE1:
+            case Stage.STAGE1:
                 // 背景画像の設定/描画
                 var background = this.createBitmapByName("background_png");
                 var stageW = this.stage.stageWidth;

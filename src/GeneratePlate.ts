@@ -39,6 +39,7 @@
     }
 
     /**
+     * ガラスのプロパティ
      * propaty of glass
      */
     private glassPlateType : number = GlassPlateType.GLASS;
@@ -50,6 +51,8 @@
     private glassPlateMoveFlag : boolean = false;//trueで移動可能
     private glassPlateMoveSpeedX : number = 1;
     private glassPlateMoveSpeedY : number = 1;
+
+    static glassBreakNumber : number = 0;//ガラスを破壊した数
     
     /**
      * ガラスの生成
@@ -79,7 +82,7 @@
         this.glassPlateImagePosition =  0 + Math.floor( Math.random() * 4 );//0~3
         //this.glassPlateMoveDirection = 0 + Math.floor( Math.random() * 4 );
 
-        //ガラスの画像が画面外に生成されないように補正値
+        //ガラスの画像が画面外に生成されないようにする補正値
         let dx : number = this.glassPlateImage.width * this.glassPlateImage.scaleX;
         let dy : number = this.glassPlateImage.height * this.glassPlateImage.scaleY;
 
@@ -223,6 +226,9 @@
             this.fadeTime = egret.getTimer();
             egret.startTick(this.fadeMethod,this);
             this.fadeFlag = true;
+            GeneratePlate.glassBreakNumber +=1;
+            console.log("破壊数" + GeneratePlate.glassBreakNumber);
+           
 
         }
         
@@ -247,8 +253,25 @@
         return false;
     }
     
+    /**
+     * Get Set
+     */
+    get getGlassPlateMoveSpeedX() : number{
+        return this.glassPlateMoveSpeedX;
+    }
+    set setGlassPlateMoveSpeedX(value : number) {
+        this.glassPlateMoveSpeedX = value;
+    }
 
-
+    get getGlassPlateMoveSpeedY() : number{
+        return this.glassPlateMoveSpeedY;
+    }
+    set setGlassPlateMoveSpeedY(value : number) {
+        this.glassPlateMoveSpeedY = value;
+    }
+/*    get getGlassBreakNumber() : number {
+        return this.glassBreakNumber;
+    }*/
 
 
 

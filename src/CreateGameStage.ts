@@ -51,7 +51,7 @@
     public createGameScene(): void {
 
         switch(this.stageLevel){
-            case StageLevel.STAGE1:
+            case Stage.STAGE1:
                 // 背景画像の設定/描画
                 let background = this.createBitmapByName("background_png");
                 let stageW = this.stage.stageWidth;

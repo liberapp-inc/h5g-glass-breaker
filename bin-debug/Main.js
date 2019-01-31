@@ -47,10 +47,7 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
-        /**
-         * 変数まとめ
-         */
-        _this.stageLevel = StageLevel.STAGE1; //ステージレベルの設定
+        _this.glassGenerateSpeed = 1000;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
@@ -122,29 +119,81 @@ var Main = (function (_super) {
      */
     Main.prototype.createGameScene = function () {
         //Instance of background
-        var createGameStage = new CreateGameStage(this.stageLevel);
+        Main.stageLevel = Stage.STAGE1;
+        var createGameStage = new CreateGameStage(Main.stageLevel);
         this.stage.addChild(createGameStage);
-        //Instance of glassPlate
-        var glassEvent;
         //Instance of Time
         var timeDisplay = new TimeDisplay();
         this.stage.addChild(timeDisplay);
-        var timer = new egret.Timer(1000, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-        timer.start();
+        //Instance of glassPlate
+        this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+        this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
+        this.timer.start();
     };
     /**
+     * ガラスの生成
      * Generate Glass Plates
      */
     Main.prototype.generatePlates = function () {
-        var generatePlate = new GeneratePlate(); //プレートを生み出すクラスの設定
+        this.changeStageLevel();
+        var generatePlate = new GeneratePlate(); //プレートの生成
         this.stage.addChild(generatePlate);
+    };
+    /**
+     * ステージレベルの変更
+     * Change stage level
+     */
+    Main.prototype.changeStageLevel = function () {
+        console.log(Main.stageLevel);
+        switch (TimeDisplay.leftTime) {
+            case 60:
+                Main.stageLevel = Stage.STAGE1;
+                this.glassGenerateSpeed = 1000;
+                break;
+            case 55:
+                Main.stageLevel = Stage.STAGE2;
+                this.glassGenerateSpeed = 800;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
+                this.timer.start();
+                break;
+            case 50:
+                Main.stageLevel = Stage.STAGE3;
+                this.glassGenerateSpeed = 600;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
+                this.timer.start();
+                break;
+            case 45:
+                Main.stageLevel = Stage.STAGE4;
+                this.glassGenerateSpeed = 2000;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
+                this.timer.start();
+                break;
+            case 40:
+                Main.stageLevel = Stage.STAGE5;
+                this.glassGenerateSpeed = 200;
+                this.timer.stop();
+                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
+                this.timer.start();
+                break;
+        }
     };
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
-var StageLevel;
-(function (StageLevel) {
-    StageLevel[StageLevel["STAGE1"] = 0] = "STAGE1";
-})(StageLevel || (StageLevel = {}));
+// Main Class はここまで
+var Stage;
+(function (Stage) {
+    Stage[Stage["STAGE1"] = 0] = "STAGE1";
+    Stage[Stage["STAGE2"] = 1] = "STAGE2";
+    Stage[Stage["STAGE3"] = 2] = "STAGE3";
+    Stage[Stage["STAGE4"] = 3] = "STAGE4";
+    Stage[Stage["STAGE5"] = 4] = "STAGE5";
+})(Stage || (Stage = {}));
 //# sourceMappingURL=Main.js.map
