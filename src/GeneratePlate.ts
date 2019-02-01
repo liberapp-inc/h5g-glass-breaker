@@ -51,6 +51,7 @@
     private glassPlateMoveFlag : boolean = false;//trueで移動可能
     private glassPlateMoveSpeedX : number = 1;
     private glassPlateMoveSpeedY : number = 1;
+    static glassPlateMoveSpeedMagnification : number = 1;
 
     static glassBreakNumber : number = 0;//ガラスを破壊した数
     
@@ -147,23 +148,23 @@
             switch(this.glassPlateImagePosition){
 
                 case GlassPosition.UP:
-                    this.glassPlateMoveSpeedX = 0;
-                    this.glassPlateMoveSpeedY = 1;
+                    this.glassPlateMoveSpeedX = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = 1 * GeneratePlate.glassPlateMoveSpeedMagnification;
                 break;
 
                 case GlassPosition.DOWN:
-                    this.glassPlateMoveSpeedX = 0;
-                    this.glassPlateMoveSpeedY = -1;
+                    this.glassPlateMoveSpeedX = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = -1* GeneratePlate.glassPlateMoveSpeedMagnification;
                 break;
 
                 case GlassPosition.RIGHT:
-                    this.glassPlateMoveSpeedX = -1;
-                    this.glassPlateMoveSpeedY = 0;
+                    this.glassPlateMoveSpeedX = -1* GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
                 break;
 
                 case GlassPosition.LEFT:
-                    this.glassPlateMoveSpeedX = 1;
-                    this.glassPlateMoveSpeedY = 0;
+                    this.glassPlateMoveSpeedX = 1 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
                 break;
             }
 
@@ -269,10 +270,13 @@
     set setGlassPlateMoveSpeedY(value : number) {
         this.glassPlateMoveSpeedY = value;
     }
-/*    get getGlassBreakNumber() : number {
-        return this.glassBreakNumber;
-    }*/
-
+/*    get getGlassPlateMoveSpeedMagnification() : number {
+        return this.glassPlateMoveSpeedMagnification;
+    }
+    set setGlassPlateMoveSpeedMagnification(value : number) {
+        this.glassPlateMoveSpeedMagnification = value;
+    }
+*/
 
 
 }

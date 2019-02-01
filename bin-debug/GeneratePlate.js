@@ -181,20 +181,20 @@ var GeneratePlate = (function (_super) {
             //ガラスの出現位置の決定
             switch (this.glassPlateImagePosition) {
                 case GlassPosition.UP:
-                    this.glassPlateMoveSpeedX = 0;
-                    this.glassPlateMoveSpeedY = 1;
+                    this.glassPlateMoveSpeedX = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = 1 * GeneratePlate.glassPlateMoveSpeedMagnification;
                     break;
                 case GlassPosition.DOWN:
-                    this.glassPlateMoveSpeedX = 0;
-                    this.glassPlateMoveSpeedY = -1;
+                    this.glassPlateMoveSpeedX = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = -1 * GeneratePlate.glassPlateMoveSpeedMagnification;
                     break;
                 case GlassPosition.RIGHT:
-                    this.glassPlateMoveSpeedX = -1;
-                    this.glassPlateMoveSpeedY = 0;
+                    this.glassPlateMoveSpeedX = -1 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
                     break;
                 case GlassPosition.LEFT:
-                    this.glassPlateMoveSpeedX = 1;
-                    this.glassPlateMoveSpeedY = 0;
+                    this.glassPlateMoveSpeedX = 1 * GeneratePlate.glassPlateMoveSpeedMagnification;
+                    this.glassPlateMoveSpeedY = 0 * GeneratePlate.glassPlateMoveSpeedMagnification;
                     break;
             }
             this.glassPlateImage.x += this.glassPlateMoveSpeedX;
@@ -286,6 +286,7 @@ var GeneratePlate = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    GeneratePlate.glassPlateMoveSpeedMagnification = 1;
     GeneratePlate.glassBreakNumber = 0; //ガラスを破壊した数
     return GeneratePlate;
 }(egret.DisplayObjectContainer));
