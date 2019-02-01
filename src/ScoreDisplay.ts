@@ -1,4 +1,4 @@
-　class TimeDisplay extends eui.UILayer {
+　class ScoreDisplay extends eui.UILayer {
     constructor() {
         super();
         this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
@@ -13,7 +13,7 @@
     */
     public async runGame() {
         await this.loadResource()
-        this.timeDisplay();
+        this.scoreDisplay();
     }
 
     /** 
@@ -40,64 +40,48 @@
         return result;
     }
 
+
     /**
-     * 変数
+     * 破壊したガラスの枚数を表示する変数
      */
-    static leftTime : number = 60;
-    private timeText : egret.TextField;
-    
+    private scoreText : egret.TextField;
+
     /**
-     * Timerの生成
+     * ガラス破壊枚数を表示
      */
-    private timeDisplay(): void {
-        this.timeText = new egret.TextField();
-        this.timeText.scaleX = 0.5;
-        this.timeText.scaleY = 0.5;
-        this.timeText.textFlow = <Array<egret.ITextElement>>[ 
-            {text: "残り時間" + TimeDisplay.leftTime.toString(), 
+    private scoreDisplay(){
+        this.scoreText = new egret.TextField();
+        this.scoreText.x = 300;
+        this.scoreText.y = 100;
+        this.scoreText.scaleX = 0.5;
+        this.scoreText.scaleY = 0.5;
+        this.scoreText.textFlow = <Array<egret.ITextElement>>[ 
+            {text: "スコア" + GeneratePlate.score.toString(), 
                 style: {
                     "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
                 }
             }
-        ];    
-        this.addChild(this.timeText);
+        ];
+        this.addChild(this.scoreText);
 
-        let timer:egret.Timer = new egret.Timer(1000,0);
-        timer.addEventListener(egret.TimerEvent.TIMER,this.decreaseTime,this);
-        timer.start();
+        this.addEventListener(egret.Event.ENTER_FRAME, this.addScore, this);
 
     }
 
-    /**
-     * 残り時間を減らす
-     */
-    public decreaseTime() : boolean{
-        TimeDisplay.leftTime -= 1;
-        this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
-        this.timeText.textFlow = <Array<egret.ITextElement>>[ 
-            {text: "残り時間" + TimeDisplay.leftTime.toString(), 
+    
+    private addScore() : void{
+        this.scoreText.text =  "スコア" + GeneratePlate.score.toString();
+        this.scoreText.textFlow = <Array<egret.ITextElement>>[ 
+            {text: "スコア" + GeneratePlate.score.toString(), 
                 style: {
                     "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
                 }
             }
-        ];    
-        return false;
-
+        ];
     }
 
 
-
-    /**
-     * Get Set
-     */
-/*    get getLeftTime() : number{
-        return this.leftTime;
-    }
-    set setLeftTime(value : number){
-        this.leftTime = value;
-    }*/
-
-    
+   
 
 
 }

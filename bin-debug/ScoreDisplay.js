@@ -43,36 +43,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Main = (function (_super) {
-    __extends(Main, _super);
-    function Main() {
+var ScoreDisplay = (function (_super) {
+    __extends(ScoreDisplay, _super);
+    function ScoreDisplay() {
         var _this = _super.call(this) || this;
-        _this.glassGenerateSpeed = 1000;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
+        /*        this.runGame().catch(e => {
+                    console.log(e);
+                })*/
     }
-    /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-    /*    protected createChildren(): void {
-            super.createChildren();
-            
-            this.runGame().catch(e => {
-                console.log(e);
-            })
-        }*/
     /**
      *  リソース準備後にゲームシーンを作成する
     */
-    Main.prototype.runGame = function () {
+    ScoreDisplay.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        this.createGameScene();
+                        this.scoreDisplay();
                         return [2 /*return*/];
                 }
             });
@@ -82,7 +73,7 @@ var Main = (function (_super) {
      * リソース読み込み準備
      * default.res.jsonから画像データを取得する為のRES設定を行う
     */
-    Main.prototype.loadResource = function () {
+    ScoreDisplay.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
             var e_1;
             return __generator(this, function (_a) {
@@ -108,106 +99,42 @@ var Main = (function (_super) {
     /**
      * 引数のnameからBitmapデータを取得する。name属性の参考：resources/resource.json
      */
-    Main.prototype.createBitmapByName = function (name) {
+    ScoreDisplay.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);
         result.texture = texture;
         return result;
     };
     /**
-     * ゲームシーンの作成
+     * ガラス破壊枚数を表示
      */
-    Main.prototype.createGameScene = function () {
-        //Instance of background
-        Main.stageLevel = Stage.STAGE1;
-        var createGameStage = new CreateGameStage(Main.stageLevel);
-        this.stage.addChild(createGameStage);
-        //Instance of Time
-        var timeDisplay = new TimeDisplay();
-        this.stage.addChild(timeDisplay);
-        //ガラスの破壊枚数の表示
-        var brokenGlassDisplay = new BrokenGlassDisplay();
-        this.stage.addChild(brokenGlassDisplay);
-        //スコアの表示
-        var scoreDisplay = new ScoreDisplay();
-        this.stage.addChild(scoreDisplay);
-        //Instance of glassPlate
-        this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-        this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-        this.timer.start();
+    ScoreDisplay.prototype.scoreDisplay = function () {
+        this.scoreText = new egret.TextField();
+        this.scoreText.x = 300;
+        this.scoreText.y = 100;
+        this.scoreText.scaleX = 0.5;
+        this.scoreText.scaleY = 0.5;
+        this.scoreText.textFlow = [
+            { text: "スコア" + GeneratePlate.score.toString(),
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
+        this.addChild(this.scoreText);
+        this.addEventListener(egret.Event.ENTER_FRAME, this.addScore, this);
     };
-    /**
-     * ガラスの生成
-     * Generate Glass Plates
-     */
-    Main.prototype.generatePlates = function () {
-        this.changeStageLevel();
-        var generatePlate = new GeneratePlate(); //プレートの生成
-        this.stage.addChild(generatePlate);
+    ScoreDisplay.prototype.addScore = function () {
+        this.scoreText.text = "スコア" + GeneratePlate.score.toString();
+        this.scoreText.textFlow = [
+            { text: "スコア" + GeneratePlate.score.toString(),
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
     };
-    /**
-     * ステージレベルの変更
-     * Change stage level
-     */
-    Main.prototype.changeStageLevel = function () {
-        switch (TimeDisplay.leftTime) {
-            case 60:
-                Main.stageLevel = Stage.STAGE1;
-                this.glassGenerateSpeed = 600;
-                break;
-            case 55:
-                Main.stageLevel = Stage.STAGE2;
-                //ガラスの生成スピードの変更
-                this.glassGenerateSpeed = 600;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 2;
-                break;
-            case 50:
-                Main.stageLevel = Stage.STAGE3;
-                this.glassGenerateSpeed = 600;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 3;
-                break;
-            case 45:
-                Main.stageLevel = Stage.STAGE4;
-                this.glassGenerateSpeed = 500;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 4;
-                break;
-            case 40:
-                Main.stageLevel = Stage.STAGE5;
-                this.glassGenerateSpeed = 400;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 10;
-                break;
-        }
-    };
-    return Main;
-}(egret.DisplayObjectContainer));
-__reflect(Main.prototype, "Main");
-// Main Class はここまで
-var Stage;
-(function (Stage) {
-    Stage[Stage["STAGE1"] = 0] = "STAGE1";
-    Stage[Stage["STAGE2"] = 1] = "STAGE2";
-    Stage[Stage["STAGE3"] = 2] = "STAGE3";
-    Stage[Stage["STAGE4"] = 3] = "STAGE4";
-    Stage[Stage["STAGE5"] = 4] = "STAGE5";
-})(Stage || (Stage = {}));
-//# sourceMappingURL=Main.js.map
+    return ScoreDisplay;
+}(eui.UILayer));
+__reflect(ScoreDisplay.prototype, "ScoreDisplay");
+//# sourceMappingURL=ScoreDisplay.js.map

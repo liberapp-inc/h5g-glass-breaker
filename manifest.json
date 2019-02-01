@@ -12,11 +12,13 @@
 	],
 	"game": [
 		"bin-debug/AssetAdapter.js",
+		"bin-debug/BrokenGlassDisplay.js",
 		"bin-debug/CreateGameStage.js",
 		"bin-debug/GeneratePlate.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
+		"bin-debug/ScoreDisplay.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/TimeDisplay.js"
 	]

@@ -110,7 +110,15 @@ var TimeDisplay = (function (_super) {
      */
     TimeDisplay.prototype.timeDisplay = function () {
         this.timeText = new egret.TextField();
-        this.timeText.text = TimeDisplay.leftTime.toString();
+        this.timeText.scaleX = 0.5;
+        this.timeText.scaleY = 0.5;
+        this.timeText.textFlow = [
+            { text: "残り時間" + TimeDisplay.leftTime.toString(),
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
         this.addChild(this.timeText);
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
@@ -121,7 +129,14 @@ var TimeDisplay = (function (_super) {
      */
     TimeDisplay.prototype.decreaseTime = function () {
         TimeDisplay.leftTime -= 1;
-        this.timeText.text = TimeDisplay.leftTime.toString();
+        this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
+        this.timeText.textFlow = [
+            { text: "残り時間" + TimeDisplay.leftTime.toString(),
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
         return false;
     };
     /**
@@ -129,6 +144,6 @@ var TimeDisplay = (function (_super) {
      */
     TimeDisplay.leftTime = 60;
     return TimeDisplay;
-}(egret.DisplayObjectContainer));
+}(eui.UILayer));
 __reflect(TimeDisplay.prototype, "TimeDisplay");
 //# sourceMappingURL=TimeDisplay.js.map

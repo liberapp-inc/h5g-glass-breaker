@@ -54,6 +54,10 @@
     static glassPlateMoveSpeedMagnification : number = 1;
 
     static glassBreakNumber : number = 0;//ガラスを破壊した数
+    static breakComboNumber :number = 0;//コンボ数
+    static breakComboBonus : number = 1;
+
+    static score : number = 0;
     
     /**
      * ガラスの生成
@@ -227,8 +231,14 @@
             this.fadeTime = egret.getTimer();
             egret.startTick(this.fadeMethod,this);
             this.fadeFlag = true;
+
+            //破壊枚数の増加
             GeneratePlate.glassBreakNumber +=1;
-            console.log("破壊数" + GeneratePlate.glassBreakNumber);
+
+            //スコアの増加
+            this.calculateScore();
+
+            console.log("スコア増加数" + 100 * GeneratePlate.breakComboBonus);
            
 
         }
@@ -252,6 +262,54 @@
 
         }
         return false;
+    }
+
+    /**
+     * スコアの計算 コンボボーナスの切り替え
+     * Calculate score
+     */
+    private calculateScore() : void {
+
+        GeneratePlate.breakComboNumber +=1;
+
+        switch(GeneratePlate.breakComboNumber){
+            case 0:
+                GeneratePlate.breakComboBonus = 1;
+            break;
+            case 10:
+                GeneratePlate.breakComboBonus = 2;
+            break;
+            case 20:
+                GeneratePlate.breakComboBonus = 3;
+            break;
+            case 30:
+                GeneratePlate.breakComboBonus = 4;
+            break;
+            case 40:
+                GeneratePlate.breakComboBonus = 5;
+            break;
+            case 50:
+                GeneratePlate.breakComboBonus = 6;
+            break;
+            case 60:
+                GeneratePlate.breakComboBonus = 7;
+            break;
+            case 70:
+                GeneratePlate.breakComboBonus = 8;
+            break;
+            case 80:
+                GeneratePlate.breakComboBonus = 9;
+            break;
+            case 90:
+                GeneratePlate.breakComboBonus = 10;
+            break;
+            case 100:
+                GeneratePlate.breakComboBonus = 11;
+            break;
+        }
+
+            GeneratePlate.score += 100 * GeneratePlate.breakComboBonus;
+
     }
     
     /**
@@ -302,4 +360,18 @@ enum GlassPosition{
     DOWN,
     RIGHT,
     LEFT,
+}
+
+//コンボボーナス計算用
+enum ComboBonusStage{
+    STAGE1,
+    STAGE2,
+    STAGE3,
+    STAGE4,
+    STAGE5,
+    STAGE6,
+    STAGE7,
+    STAGE8,
+    STAGE9,
+    STAGE10,
 }

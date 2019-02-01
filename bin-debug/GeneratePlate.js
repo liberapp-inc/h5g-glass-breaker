@@ -236,8 +236,11 @@ var GeneratePlate = (function (_super) {
             this.fadeTime = egret.getTimer();
             egret.startTick(this.fadeMethod, this);
             this.fadeFlag = true;
+            //破壊枚数の増加
             GeneratePlate.glassBreakNumber += 1;
-            console.log("破壊数" + GeneratePlate.glassBreakNumber);
+            //スコアの増加
+            this.calculateScore();
+            console.log("スコア増加数" + 100 * GeneratePlate.breakComboBonus);
         }
     };
     /**
@@ -254,6 +257,49 @@ var GeneratePlate = (function (_super) {
             }
         }
         return false;
+    };
+    /**
+     * スコアの計算 コンボボーナスの切り替え
+     * Calculate score
+     */
+    GeneratePlate.prototype.calculateScore = function () {
+        GeneratePlate.breakComboNumber += 1;
+        switch (GeneratePlate.breakComboNumber) {
+            case 0:
+                GeneratePlate.breakComboBonus = 1;
+                break;
+            case 10:
+                GeneratePlate.breakComboBonus = 2;
+                break;
+            case 20:
+                GeneratePlate.breakComboBonus = 3;
+                break;
+            case 30:
+                GeneratePlate.breakComboBonus = 4;
+                break;
+            case 40:
+                GeneratePlate.breakComboBonus = 5;
+                break;
+            case 50:
+                GeneratePlate.breakComboBonus = 6;
+                break;
+            case 60:
+                GeneratePlate.breakComboBonus = 7;
+                break;
+            case 70:
+                GeneratePlate.breakComboBonus = 8;
+                break;
+            case 80:
+                GeneratePlate.breakComboBonus = 9;
+                break;
+            case 90:
+                GeneratePlate.breakComboBonus = 10;
+                break;
+            case 100:
+                GeneratePlate.breakComboBonus = 11;
+                break;
+        }
+        GeneratePlate.score += 100 * GeneratePlate.breakComboBonus;
     };
     Object.defineProperty(GeneratePlate.prototype, "getGlassPlateMoveSpeedX", {
         /**
@@ -288,6 +334,9 @@ var GeneratePlate = (function (_super) {
     });
     GeneratePlate.glassPlateMoveSpeedMagnification = 1;
     GeneratePlate.glassBreakNumber = 0; //ガラスを破壊した数
+    GeneratePlate.breakComboNumber = 0; //コンボ数
+    GeneratePlate.breakComboBonus = 1;
+    GeneratePlate.score = 0;
     return GeneratePlate;
 }(egret.DisplayObjectContainer));
 __reflect(GeneratePlate.prototype, "GeneratePlate");
@@ -313,4 +362,18 @@ var GlassPosition;
     GlassPosition[GlassPosition["RIGHT"] = 2] = "RIGHT";
     GlassPosition[GlassPosition["LEFT"] = 3] = "LEFT";
 })(GlassPosition || (GlassPosition = {}));
+//コンボボーナス計算用
+var ComboBonusStage;
+(function (ComboBonusStage) {
+    ComboBonusStage[ComboBonusStage["STAGE1"] = 0] = "STAGE1";
+    ComboBonusStage[ComboBonusStage["STAGE2"] = 1] = "STAGE2";
+    ComboBonusStage[ComboBonusStage["STAGE3"] = 2] = "STAGE3";
+    ComboBonusStage[ComboBonusStage["STAGE4"] = 3] = "STAGE4";
+    ComboBonusStage[ComboBonusStage["STAGE5"] = 4] = "STAGE5";
+    ComboBonusStage[ComboBonusStage["STAGE6"] = 5] = "STAGE6";
+    ComboBonusStage[ComboBonusStage["STAGE7"] = 6] = "STAGE7";
+    ComboBonusStage[ComboBonusStage["STAGE8"] = 7] = "STAGE8";
+    ComboBonusStage[ComboBonusStage["STAGE9"] = 8] = "STAGE9";
+    ComboBonusStage[ComboBonusStage["STAGE10"] = 9] = "STAGE10";
+})(ComboBonusStage || (ComboBonusStage = {}));
 //# sourceMappingURL=GeneratePlate.js.map
