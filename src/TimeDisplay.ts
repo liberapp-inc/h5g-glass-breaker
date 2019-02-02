@@ -73,7 +73,7 @@
      */
     public decreaseTime() : boolean{
         TimeDisplay.leftTime -= 1;
-        this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
+        //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
         this.timeText.textFlow = <Array<egret.ITextElement>>[ 
             {text: "残り時間" + TimeDisplay.leftTime.toString(), 
                 style: {

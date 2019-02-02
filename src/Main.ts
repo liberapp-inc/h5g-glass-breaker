@@ -2,6 +2,7 @@
 
         public constructor() {
         super();
+        Main.stageLevel = Stage.TITLE;
         this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
     }
 
@@ -61,10 +62,7 @@
      */
     private createGameScene(): void {
 
-        //Instance of background
-        Main.stageLevel = Stage.STAGE1;
-        const createGameStage = new CreateGameStage(Main.stageLevel);
-        this.stage.addChild(createGameStage);
+
 
 
         //Instance of Time
@@ -84,6 +82,9 @@
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
         this.timer.start();
 
+        //Instance of background
+        const createGameStage = new CreateGameStage(Main.stageLevel);
+        this.stage.addChild(createGameStage);
         
     }
 
@@ -172,6 +173,7 @@
 // Main Class はここまで
 
 enum Stage{
+    TITLE,
     STAGE1,
     STAGE2,
     STAGE3,

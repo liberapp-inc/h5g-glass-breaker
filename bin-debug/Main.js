@@ -48,6 +48,7 @@ var Main = (function (_super) {
     function Main() {
         var _this = _super.call(this) || this;
         _this.glassGenerateSpeed = 1000;
+        Main.stageLevel = Stage.TITLE;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
@@ -118,10 +119,6 @@ var Main = (function (_super) {
      * ゲームシーンの作成
      */
     Main.prototype.createGameScene = function () {
-        //Instance of background
-        Main.stageLevel = Stage.STAGE1;
-        var createGameStage = new CreateGameStage(Main.stageLevel);
-        this.stage.addChild(createGameStage);
         //Instance of Time
         var timeDisplay = new TimeDisplay();
         this.stage.addChild(timeDisplay);
@@ -135,6 +132,9 @@ var Main = (function (_super) {
         this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
         this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
         this.timer.start();
+        //Instance of background
+        var createGameStage = new CreateGameStage(Main.stageLevel);
+        this.stage.addChild(createGameStage);
     };
     /**
      * ガラスの生成
@@ -204,10 +204,11 @@ __reflect(Main.prototype, "Main");
 // Main Class はここまで
 var Stage;
 (function (Stage) {
-    Stage[Stage["STAGE1"] = 0] = "STAGE1";
-    Stage[Stage["STAGE2"] = 1] = "STAGE2";
-    Stage[Stage["STAGE3"] = 2] = "STAGE3";
-    Stage[Stage["STAGE4"] = 3] = "STAGE4";
-    Stage[Stage["STAGE5"] = 4] = "STAGE5";
+    Stage[Stage["TITLE"] = 0] = "TITLE";
+    Stage[Stage["STAGE1"] = 1] = "STAGE1";
+    Stage[Stage["STAGE2"] = 2] = "STAGE2";
+    Stage[Stage["STAGE3"] = 3] = "STAGE3";
+    Stage[Stage["STAGE4"] = 4] = "STAGE4";
+    Stage[Stage["STAGE5"] = 5] = "STAGE5";
 })(Stage || (Stage = {}));
 //# sourceMappingURL=Main.js.map

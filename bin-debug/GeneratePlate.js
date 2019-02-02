@@ -240,7 +240,6 @@ var GeneratePlate = (function (_super) {
             GeneratePlate.glassBreakNumber += 1;
             //スコアの増加
             this.calculateScore();
-            console.log("スコア増加数" + 100 * GeneratePlate.breakComboBonus);
         }
     };
     /**

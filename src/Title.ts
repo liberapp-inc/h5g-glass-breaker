@@ -1,0 +1,93 @@
+　class Title extends eui.UILayer {
+    constructor() {
+        super();
+        let assetAdapter = new AssetAdapter();
+        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+        this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
+        this.runGame().catch(e => {
+            console.log(e);
+        })
+        
+    }
+
+    /** 
+     *  リソース準備後にゲームシーンを作成する
+    */
+    public async runGame() {
+        await this.loadResource()
+        this.titleDisplay();
+    }
+
+    /** 
+     * リソース読み込み準備
+     * default.res.jsonから画像データを取得する為のRES設定を行う
+    */
+    private async loadResource() {
+        try {
+            await RES.loadConfig("resource/default.res.json", "resource/");
+            await RES.loadGroup("preload");
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+
+    /**
+     * 引数のnameからBitmapデータを取得する。name属性の参考：resources/resource.json
+     */
+    private createBitmapByName(name: string): egret.Bitmap {
+        let result = new egret.Bitmap();
+        let texture: egret.Texture = RES.getRes(name);
+        result.texture = texture;
+        return result;
+    }
+
+    
+    //  変数
+    private playButtonStyle : egret.DisplayObject;
+
+    /**
+     * Titleの生成
+     */
+    private titleDisplay(): void {
+        const background = this.createBitmapByName("wood_background_png");
+        let stageW = this.stage.stageWidth;
+        let stageH = this.stage.stageHeight;
+        background.width = stageW;
+        background.height = stageH;
+        this.addChild(background);
+
+        //euiグループ
+        const euiGroup : eui.Group = new eui.Group();
+        euiGroup.width = this.stage.stageWidth;
+        euiGroup.height = this.stage.stageHeight;
+        this.addChild(euiGroup);
+
+
+        //Playボタン
+        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadPlayButton,this);
+        const playButton : eui.Button = new eui.Button();
+        playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
+        playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        euiGroup.addChild(playButton);
+
+
+    }
+
+/*    private loadPlayButton(clazz:any,url:string) :void {
+        const playButton : eui.Button = new eui.Button();
+        playButton.skinName =clazz;
+        this.addChild(playButton);
+        playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+    }
+*/
+    private sceneTransition() : void {
+        console.log("test");
+        
+    }
+
+    
+
+
+}
