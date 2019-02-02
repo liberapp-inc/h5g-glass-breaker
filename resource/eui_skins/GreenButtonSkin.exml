@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="GreenButtonSkin" width="720" height="1280" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+<e:Skin class="GreenButtonSkin" width="720" height="1280" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing"  >
 	<w:Config id="168aca9e019" ></w:Config>
 	<e:Button label="Play" anchorOffsetX="0" width="313.07" anchorOffsetY="0" height="119" scaleX="1" horizontalCenter="0" verticalCenter="0">
 		<e:skinName>

@@ -1,5 +1,6 @@
 　class Main extends egret.DisplayObjectContainer {
 
+        static stageLevel : number ;//ステージレベルの設定
         public constructor() {
         super();
         Main.stageLevel = Stage.TITLE;
@@ -53,19 +54,21 @@
     /**
      * 変数まとめ
      */
-    static stageLevel : number ;//ステージレベルの設定
+/*    static stageLevel : number ;//ステージレベルの設定
     private touchGlassEvent : egret.Event;//ガラスをタッチした時のイベント
     private glassGenerateSpeed : number = 1000;
-    private timer : egret.Timer;
+    private timer : egret.Timer;*/
     /**
      * ゲームシーンの作成
      */
     private createGameScene(): void {
+        const createGameStage = new CreateGameStage();
+        this.stage.addChild(createGameStage);
 
 
 
 
-        //Instance of Time
+/*        //Instance of Time
         const timeDisplay = new TimeDisplay();
         this.stage.addChild(timeDisplay);
 
@@ -75,16 +78,14 @@
 
         //スコアの表示
         const scoreDisplay = new ScoreDisplay();
-        this.stage.addChild(scoreDisplay);
+        this.stage.addChild(scoreDisplay);*/
+        //Instance of background
 
-        //Instance of glassPlate
+/*        //Instance of glassPlate
         this.timer = new egret.Timer(this.glassGenerateSpeed,0);
         this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
-        this.timer.start();
+        this.timer.start();*/
 
-        //Instance of background
-        const createGameStage = new CreateGameStage(Main.stageLevel);
-        this.stage.addChild(createGameStage);
         
     }
 
@@ -92,17 +93,17 @@
      * ガラスの生成
      * Generate Glass Plates
      */
-    public generatePlates(){
+/*    public generatePlates(){
         this.changeStageLevel();
         let generatePlate = new GeneratePlate();//プレートの生成
         this.stage.addChild(generatePlate);
-    }
+    }*/
 
     /**
      * ステージレベルの変更
      * Change stage level
      */
-    public changeStageLevel(){
+/*    public changeStageLevel(){
        
         switch(TimeDisplay.leftTime){
             case 60:
@@ -156,7 +157,7 @@
                 GeneratePlate.glassPlateMoveSpeedMagnification = 10;
             break;
         }
-    }
+    }*/
 
     /**
      * Get Set

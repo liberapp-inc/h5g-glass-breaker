@@ -119,16 +119,16 @@ var Title = (function (_super) {
         background.height = stageH;
         this.addChild(background);
         //euiグループ
-        var euiGroup = new eui.Group();
-        euiGroup.width = this.stage.stageWidth;
-        euiGroup.height = this.stage.stageHeight;
-        this.addChild(euiGroup);
+        this.euiGroup = new eui.Group();
+        this.euiGroup.width = this.stage.stageWidth;
+        this.euiGroup.height = this.stage.stageHeight;
+        this.addChild(this.euiGroup);
         //Playボタン
         //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadPlayButton,this);
         var playButton = new eui.Button();
         playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
         playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
-        euiGroup.addChild(playButton);
+        this.euiGroup.addChild(playButton);
     };
     /*    private loadPlayButton(clazz:any,url:string) :void {
             const playButton : eui.Button = new eui.Button();
@@ -139,6 +139,10 @@ var Title = (function (_super) {
     */
     Title.prototype.sceneTransition = function () {
         console.log("test");
+        this.removeChild(this.euiGroup);
+        Main.stageLevel = Stage.STAGE1;
+        var createGameStage = new CreateGameStage();
+        this.stage.addChild(createGameStage);
     };
     return Title;
 }(eui.UILayer));

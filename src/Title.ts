@@ -1,4 +1,8 @@
 　class Title extends eui.UILayer {
+    //  変数
+    private playButtonStyle : egret.DisplayObject;
+    private euiGroup : eui.Group ;
+
     constructor() {
         super();
         let assetAdapter = new AssetAdapter();
@@ -44,8 +48,6 @@
     }
 
     
-    //  変数
-    private playButtonStyle : egret.DisplayObject;
 
     /**
      * Titleの生成
@@ -59,10 +61,10 @@
         this.addChild(background);
 
         //euiグループ
-        const euiGroup : eui.Group = new eui.Group();
-        euiGroup.width = this.stage.stageWidth;
-        euiGroup.height = this.stage.stageHeight;
-        this.addChild(euiGroup);
+        this.euiGroup = new eui.Group();
+        this.euiGroup.width = this.stage.stageWidth;
+        this.euiGroup.height = this.stage.stageHeight;
+        this.addChild(this.euiGroup);
 
 
         //Playボタン
@@ -70,7 +72,7 @@
         const playButton : eui.Button = new eui.Button();
         playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
         playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
-        euiGroup.addChild(playButton);
+        this.euiGroup.addChild(playButton);
 
 
     }
@@ -84,6 +86,10 @@
 */
     private sceneTransition() : void {
         console.log("test");
+        this.removeChild(this.euiGroup);
+        Main.stageLevel = Stage.STAGE1;
+        const createGameStage = new CreateGameStage();
+        this.stage.addChild(createGameStage);
         
     }
 
