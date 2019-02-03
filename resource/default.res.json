@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,background_png,glass_plate_png,glass_plate-broken_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,background_png,glass_plate_png,glass_plate-broken_png,wood_background_png,green_button_png,green_pushedButton_png,iron_plate_radiation_png,iron_plate_parallel_png",
 			"name": "preload"
 		}
 	],
@@ -150,6 +150,31 @@
 			"name": "glass_plate-broken_png",
 			"type": "image",
 			"url": "img/glass_plate-broken.png"
+		},
+		{
+			"name": "wood_background_png",
+			"type": "image",
+			"url": "img/wood_background.png"
+		},
+		{
+			"name": "green_button_png",
+			"type": "image",
+			"url": "img/green_button.png"
+		},
+		{
+			"name": "green_pushedButton_png",
+			"type": "image",
+			"url": "img/green_pushedButton.png"
+		},
+		{
+			"name": "iron_plate_radiation_png",
+			"type": "image",
+			"url": "img/iron_plate_radiation.png"
+		},
+		{
+			"name": "iron_plate_parallel_png",
+			"type": "image",
+			"url": "img/iron_plate_parallel.png"
 		}
 	]
 }

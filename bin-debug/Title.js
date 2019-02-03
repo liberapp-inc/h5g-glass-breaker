@@ -43,27 +43,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var TimeDisplay = (function (_super) {
-    __extends(TimeDisplay, _super);
-    function TimeDisplay() {
+var Title = (function (_super) {
+    __extends(Title, _super);
+    function Title() {
         var _this = _super.call(this) || this;
+        var assetAdapter = new AssetAdapter();
+        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
+        _this.runGame().catch(function (e) {
+            console.log(e);
+        });
         return _this;
-        /*        this.runGame().catch(e => {
-                    console.log(e);
-                })*/
     }
     /**
      *  リソース準備後にゲームシーンを作成する
     */
-    TimeDisplay.prototype.runGame = function () {
+    Title.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        this.timeDisplay();
+                        this.titleDisplay();
                         return [2 /*return*/];
                 }
             });
@@ -73,7 +76,7 @@ var TimeDisplay = (function (_super) {
      * リソース読み込み準備
      * default.res.jsonから画像データを取得する為のRES設定を行う
     */
-    TimeDisplay.prototype.loadResource = function () {
+    Title.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
             var e_1;
             return __generator(this, function (_a) {
@@ -99,51 +102,49 @@ var TimeDisplay = (function (_super) {
     /**
      * 引数のnameからBitmapデータを取得する。name属性の参考：resources/resource.json
      */
-    TimeDisplay.prototype.createBitmapByName = function (name) {
+    Title.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);
         result.texture = texture;
         return result;
     };
     /**
-     * Timerの生成
+     * Titleの生成
      */
-    TimeDisplay.prototype.timeDisplay = function () {
-        this.timeText = new egret.TextField();
-        this.timeText.scaleX = 0.5;
-        this.timeText.scaleY = 0.5;
-        this.timeText.textFlow = [
-            { text: "残り時間" + TimeDisplay.leftTime.toString(),
-                style: {
-                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                }
-            }
-        ];
-        this.addChild(this.timeText);
-        var timer = new egret.Timer(1000, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
-        timer.start();
+    Title.prototype.titleDisplay = function () {
+        var background = this.createBitmapByName("wood_background_png");
+        var stageW = this.stage.stageWidth;
+        var stageH = this.stage.stageHeight;
+        background.width = stageW;
+        background.height = stageH;
+        this.addChild(background);
+        //euiグループ
+        this.euiGroup = new eui.Group();
+        this.euiGroup.width = this.stage.stageWidth;
+        this.euiGroup.height = this.stage.stageHeight;
+        this.addChild(this.euiGroup);
+        //Playボタン
+        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadPlayButton,this);
+        var playButton = new eui.Button();
+        playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
+        playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        this.euiGroup.addChild(playButton);
     };
-    /**
-     * 残り時間を減らす
-     */
-    TimeDisplay.prototype.decreaseTime = function () {
-        TimeDisplay.leftTime -= 1;
-        //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
-        this.timeText.textFlow = [
-            { text: "残り時間" + TimeDisplay.leftTime.toString(),
-                style: {
-                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                }
-            }
-        ];
-        return false;
+    /*    private loadPlayButton(clazz:any,url:string) :void {
+            const playButton : eui.Button = new eui.Button();
+            playButton.skinName =clazz;
+            this.addChild(playButton);
+            playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        }
+    */
+    Title.prototype.sceneTransition = function () {
+        console.log("test");
+        this.removeChild(this.euiGroup);
+        Main.stageLevel = Stage.STAGE1;
+        var createGameStage = new CreateGameStage();
+        this.stage.addChild(createGameStage);
     };
-    /**
-     * 変数
-     */
-    TimeDisplay.leftTime = 60;
-    return TimeDisplay;
+    return Title;
 }(eui.UILayer));
-__reflect(TimeDisplay.prototype, "TimeDisplay");
-//# sourceMappingURL=TimeDisplay.js.map
+__reflect(Title.prototype, "Title");
+//# sourceMappingURL=Title.js.map

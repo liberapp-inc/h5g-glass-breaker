@@ -47,7 +47,7 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
-        _this.glassGenerateSpeed = 1000;
+        Main.stageLevel = Stage.TITLE;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
@@ -115,88 +115,34 @@ var Main = (function (_super) {
         return result;
     };
     /**
+     * 変数まとめ
+     */
+    /*    static stageLevel : number ;//ステージレベルの設定
+        private touchGlassEvent : egret.Event;//ガラスをタッチした時のイベント
+        private glassGenerateSpeed : number = 1000;
+        private timer : egret.Timer;*/
+    /**
      * ゲームシーンの作成
      */
     Main.prototype.createGameScene = function () {
-        //Instance of background
-        Main.stageLevel = Stage.STAGE1;
-        var createGameStage = new CreateGameStage(Main.stageLevel);
+        var createGameStage = new CreateGameStage();
         this.stage.addChild(createGameStage);
-        //Instance of Time
-        var timeDisplay = new TimeDisplay();
-        this.stage.addChild(timeDisplay);
-        //ガラスの破壊枚数の表示
-        var brokenGlassDisplay = new BrokenGlassDisplay();
-        this.stage.addChild(brokenGlassDisplay);
-        //スコアの表示
-        var scoreDisplay = new ScoreDisplay();
-        this.stage.addChild(scoreDisplay);
-        //Instance of glassPlate
-        this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-        this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-        this.timer.start();
-    };
-    /**
-     * ガラスの生成
-     * Generate Glass Plates
-     */
-    Main.prototype.generatePlates = function () {
-        this.changeStageLevel();
-        var generatePlate = new GeneratePlate(); //プレートの生成
-        this.stage.addChild(generatePlate);
-    };
-    /**
-     * ステージレベルの変更
-     * Change stage level
-     */
-    Main.prototype.changeStageLevel = function () {
-        switch (TimeDisplay.leftTime) {
-            case 60:
-                Main.stageLevel = Stage.STAGE1;
-                this.glassGenerateSpeed = 600;
-                break;
-            case 55:
-                Main.stageLevel = Stage.STAGE2;
-                //ガラスの生成スピードの変更
-                this.glassGenerateSpeed = 600;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 2;
-                break;
-            case 50:
-                Main.stageLevel = Stage.STAGE3;
-                this.glassGenerateSpeed = 600;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 3;
-                break;
-            case 45:
-                Main.stageLevel = Stage.STAGE4;
-                this.glassGenerateSpeed = 500;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 4;
-                break;
-            case 40:
-                Main.stageLevel = Stage.STAGE5;
-                this.glassGenerateSpeed = 400;
-                this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
-                this.timer.start();
-                //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 10;
-                break;
-        }
+        /*        //Instance of Time
+                const timeDisplay = new TimeDisplay();
+                this.stage.addChild(timeDisplay);
+        
+                //ガラスの破壊枚数の表示
+                const brokenGlassDisplay = new BrokenGlassDisplay();
+                this.stage.addChild(brokenGlassDisplay);
+        
+                //スコアの表示
+                const scoreDisplay = new ScoreDisplay();
+                this.stage.addChild(scoreDisplay);*/
+        //Instance of background
+        /*        //Instance of glassPlate
+                this.timer = new egret.Timer(this.glassGenerateSpeed,0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+                this.timer.start();*/
     };
     return Main;
 }(egret.DisplayObjectContainer));
@@ -204,10 +150,11 @@ __reflect(Main.prototype, "Main");
 // Main Class はここまで
 var Stage;
 (function (Stage) {
-    Stage[Stage["STAGE1"] = 0] = "STAGE1";
-    Stage[Stage["STAGE2"] = 1] = "STAGE2";
-    Stage[Stage["STAGE3"] = 2] = "STAGE3";
-    Stage[Stage["STAGE4"] = 3] = "STAGE4";
-    Stage[Stage["STAGE5"] = 4] = "STAGE5";
+    Stage[Stage["TITLE"] = 0] = "TITLE";
+    Stage[Stage["STAGE1"] = 1] = "STAGE1";
+    Stage[Stage["STAGE2"] = 2] = "STAGE2";
+    Stage[Stage["STAGE3"] = 3] = "STAGE3";
+    Stage[Stage["STAGE4"] = 4] = "STAGE4";
+    Stage[Stage["STAGE5"] = 5] = "STAGE5";
 })(Stage || (Stage = {}));
 //# sourceMappingURL=Main.js.map
