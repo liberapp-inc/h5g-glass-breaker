@@ -78,8 +78,38 @@
      * Decide the direction and position of the glasses
      */
     private decideProperty(){
-        // 描画
-        this.glassPlateImage = this.createBitmapByName("glass_plate_png");
+
+        //出現するプレートの種類の決定
+        this.glassPlateType =  0 + Math.floor( Math.random() * 2 );//0~1
+
+        //各プレートの描画とクリック判定の付与
+        switch(this.glassPlateType){
+
+            case GlassPlateType.GLASS:
+
+                this.glassPlateImage = this.createBitmapByName("glass_plate_png");
+                this.glassPlateMoveFlag = true;
+
+                //Enable touchEvent
+                this.glassPlateImage.touchEnabled =true;
+                this.glassPlateImage.pixelHitTest = true;
+                this.addChild(this.glassPlateImage);
+
+            break;
+            case GlassPlateType.IRON:
+
+                this.glassPlateImage = this.createBitmapByName("iron_plate_parallel_png");
+                this.glassPlateMoveFlag = true;
+
+                //Enable touchEvent
+                this.glassPlateImage.touchEnabled =true;
+                this.glassPlateImage.pixelHitTest = true;
+                this.addChild(this.glassPlateImage);
+
+            break;
+        }
+
+        //画像の大きさを調整（scaleを変更してもwidthは変更されないので注意）
         this.glassPlateImage.scaleX = 0.5;
         this.glassPlateImage.scaleY = 0.5;
 
@@ -125,20 +155,6 @@
             break;
         }
         
-        //各プレートの種類ごとの挙動の決定
-        switch(this.glassPlateType){
-
-            case GlassPlateType.GLASS:
-
-                this.glassPlateMoveFlag = true;
-
-                //Enable touchEvent
-                this.glassPlateImage.touchEnabled =true;
-                this.glassPlateImage.pixelHitTest = true;
-                this.addChild(this.glassPlateImage);
-
-            break;
-        }
     }
 
     /**
@@ -199,8 +215,35 @@
 
         this.moveStop();
 
+        switch(this.glassPlateType){
+            case GlassPlateType.GLASS:
+                //Preserve the variables of glass that are position and scale
+                let clickedGlassPositionX : number = this.glassPlateImage.x;
+                let clickedGlassPositionY : number = this.glassPlateImage.y;
+                let clickedGlassScaleX : number = this.glassPlateImage.scaleX;
+                let clickedGlassScaleY : number = this.glassPlateImage.scaleY;
+                
+                //Change a glass image to broken glass image
+                this.removeChild(this.glassPlateImage);
+                this.glassPlateImage = this.createBitmapByName("glass_plate-broken_png");
+                this.glassPlateImage.x = clickedGlassPositionX
+                this.glassPlateImage.y = clickedGlassPositionY
+                this.glassPlateImage.scaleX =clickedGlassScaleX;
+                this.glassPlateImage.scaleY =clickedGlassScaleY;
+                this.addChild(this.glassPlateImage);
+
+                this.fadeBrokenGlass();
+
+            break;
+            case GlassPlateType.IRON:
+                console.log("GameOver");
+                
+
+            break;
+        }
+
         //Preserve the variables of glass that are position and scale
-        let clickedGlassPositionX : number = this.glassPlateImage.x;
+/*        let clickedGlassPositionX : number = this.glassPlateImage.x;
         let clickedGlassPositionY : number = this.glassPlateImage.y;
         let clickedGlassScaleX : number = this.glassPlateImage.scaleX;
         let clickedGlassScaleY : number = this.glassPlateImage.scaleY;
@@ -214,7 +257,7 @@
         this.glassPlateImage.scaleY =clickedGlassScaleY;
         this.addChild(this.glassPlateImage);
 
-        this.fadeBrokenGlass();
+        this.fadeBrokenGlass();*/
 
         
     }
