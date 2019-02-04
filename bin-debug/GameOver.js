@@ -43,39 +43,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Main = (function (_super) {
-    __extends(Main, _super);
-    function Main() {
+var GameOver = (function (_super) {
+    __extends(GameOver, _super);
+    function GameOver() {
         var _this = _super.call(this) || this;
-        var assetAdapter = new AssetAdapter();
-        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
-        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
-        Main.stageLevel = Stage.TITLE;
+        /*        let assetAdapter = new AssetAdapter();
+                egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+                egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());*/
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
+        _this.runGame().catch(function (e) {
+            console.log(e);
+        });
         return _this;
     }
     /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-    /*    protected createChildren(): void {
-            super.createChildren();
-            
-            this.runGame().catch(e => {
-                console.log(e);
-            })
-        }*/
-    /**
      *  リソース準備後にゲームシーンを作成する
     */
-    Main.prototype.runGame = function () {
+    GameOver.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        this.createGameScene();
+                        this.GameOverDisplay();
                         return [2 /*return*/];
                 }
             });
@@ -85,7 +76,7 @@ var Main = (function (_super) {
      * リソース読み込み準備
      * default.res.jsonから画像データを取得する為のRES設定を行う
     */
-    Main.prototype.loadResource = function () {
+    GameOver.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
             var e_1;
             return __generator(this, function (_a) {
@@ -111,21 +102,60 @@ var Main = (function (_super) {
     /**
      * 引数のnameからBitmapデータを取得する。name属性の参考：resources/resource.json
      */
-    Main.prototype.createBitmapByName = function (name) {
+    GameOver.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);
         result.texture = texture;
         return result;
     };
     /**
-     * ゲームシーンの作成
+     * Titleの生成
      */
-    Main.prototype.createGameScene = function () {
+    GameOver.prototype.GameOverDisplay = function () {
+        var background = this.createBitmapByName("wood_background_png");
+        var stageW = this.stage.stageWidth;
+        var stageH = this.stage.stageHeight;
+        background.width = stageW;
+        background.height = stageH;
+        this.addChild(background);
+        //euiグループ
+        this.euiGroup = new eui.Group();
+        this.euiGroup.width = this.stage.stageWidth;
+        this.euiGroup.height = this.stage.stageHeight;
+        this.addChild(this.euiGroup);
+        //Playボタン
+        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadretryButton,this);
+        var retryButton = new eui.Button();
+        retryButton.skinName = "resource/eui_skins/GreenRetryButton.exml";
+        retryButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.retry, this);
+        this.euiGroup.addChild(retryButton);
+        var titleButton = new eui.Button();
+        titleButton.skinName = "resource/eui_skins/GreenTitleButton.exml";
+        titleButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.title, this);
+        this.euiGroup.addChild(titleButton);
+    };
+    /*    private loadretryButton(clazz:any,url:string) :void {
+            const retryButton : eui.Button = new eui.Button();
+            retryButton.skinName =clazz;
+            this.addChild(retryButton);
+            retryButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        }
+    */
+    GameOver.prototype.retry = function () {
+        console.log("retry");
+        this.removeChild(this.euiGroup);
+        Main.stageLevel = Stage.STAGE1;
         var createGameStage = new CreateGameStage();
         this.stage.addChild(createGameStage);
     };
-    return Main;
-}(egret.DisplayObjectContainer));
-__reflect(Main.prototype, "Main");
-// Main Class はここまで
-//# sourceMappingURL=Main.js.map
+    GameOver.prototype.title = function () {
+        console.log("title");
+        this.removeChild(this.euiGroup);
+        Main.stageLevel = Stage.TITLE;
+        var createGameStage = new CreateGameStage();
+        this.stage.addChild(createGameStage);
+    };
+    return GameOver;
+}(eui.UILayer));
+__reflect(GameOver.prototype, "GameOver");
+//# sourceMappingURL=GameOver.js.map

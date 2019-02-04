@@ -245,6 +245,9 @@ var GeneratePlate = (function (_super) {
                 break;
             case GlassPlateType.IRON:
                 console.log("GameOver");
+                Main.stageLevel = Stage.GAME_OVER;
+                var gameOver = new GameOver();
+                this.addChild(gameOver);
                 break;
         }
         //Preserve the variables of glass that are position and scale

@@ -1,6 +1,6 @@
-　class Title extends eui.UILayer {
+　class GameOver extends eui.UILayer {
     //  変数
-    private playButtonStyle : egret.DisplayObject;
+    private retryButtonStyle : egret.DisplayObject;
     private euiGroup : eui.Group ;
 
     constructor() {
@@ -20,7 +20,7 @@
     */
     public async runGame() {
         await this.loadResource()
-        this.titleDisplay();
+        this.GameOverDisplay();
     }
 
     /** 
@@ -52,7 +52,7 @@
     /**
      * Titleの生成
      */
-    private titleDisplay(): void {
+    private GameOverDisplay(): void {
         const background = this.createBitmapByName("wood_background_png");
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
@@ -68,24 +68,28 @@
 
 
         //Playボタン
-        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadPlayButton,this);
-        const playButton : eui.Button = new eui.Button();
-        playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
-        playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
-        this.euiGroup.addChild(playButton);
+        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadretryButton,this);
+        const retryButton : eui.Button = new eui.Button();
+        retryButton.skinName = "resource/eui_skins/GreenRetryButton.exml";
+        retryButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.retry, this);
+        this.euiGroup.addChild(retryButton);
 
+        const titleButton : eui.Button = new eui.Button();
+        titleButton.skinName = "resource/eui_skins/GreenTitleButton.exml";
+        titleButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.title, this);
+        this.euiGroup.addChild(titleButton);
 
     }
 
-/*    private loadPlayButton(clazz:any,url:string) :void {
-        const playButton : eui.Button = new eui.Button();
-        playButton.skinName =clazz;
-        this.addChild(playButton);
-        playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+/*    private loadretryButton(clazz:any,url:string) :void {
+        const retryButton : eui.Button = new eui.Button();
+        retryButton.skinName =clazz;
+        this.addChild(retryButton);
+        retryButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
     }
 */
-    private sceneTransition() : void {
-        console.log("test");
+    private retry() : void {
+        console.log("retry");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.STAGE1;
         const createGameStage = new CreateGameStage();
@@ -93,6 +97,14 @@
         
     }
 
+    private title() : void {
+        console.log("title");
+        this.removeChild(this.euiGroup);
+        Main.stageLevel = Stage.TITLE;
+        const createGameStage = new CreateGameStage();
+        this.stage.addChild(createGameStage);
+        
+    }
     
 
 

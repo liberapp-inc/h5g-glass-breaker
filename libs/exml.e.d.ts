@@ -8,6 +8,10 @@ declare module skins{
 }
 declare class GreenButtonSkin extends eui.Skin{
 }
+declare class GreenRetryButton extends eui.Skin{
+}
+declare class GreenTitleButton extends eui.Skin{
+}
 declare module skins{
 	class HScrollBarSkin extends eui.Skin{
 	}

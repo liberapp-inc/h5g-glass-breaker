@@ -47,9 +47,9 @@ var Title = (function (_super) {
     __extends(Title, _super);
     function Title() {
         var _this = _super.call(this) || this;
-        var assetAdapter = new AssetAdapter();
-        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
-        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+        /*        let assetAdapter = new AssetAdapter();
+                egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+                egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());*/
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         _this.runGame().catch(function (e) {
             console.log(e);

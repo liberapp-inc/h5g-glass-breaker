@@ -88,6 +88,10 @@
                 this.timer.start();
 
             break;
+
+            case Stage.GAME_OVER:
+
+            break;
         }
     }
 
@@ -96,9 +100,13 @@
      * Generate Glass Plates
      */
     public generatePlates(){
-        this.changeStageLevel();
-        let generatePlate = new GeneratePlate();//プレートの生成
-        this.stage.addChild(generatePlate);
+        
+        if(Main.stageLevel != Stage.GAME_OVER){
+
+            this.changeStageLevel();
+            let generatePlate = new GeneratePlate();//プレートの生成
+            this.stage.addChild(generatePlate);
+        }
     }
 
     /**
@@ -165,9 +173,14 @@
 
 
 
+}
 
-
-
-
-
+enum Stage{
+    TITLE,
+    STAGE1,
+    STAGE2,
+    STAGE3,
+    STAGE4,
+    STAGE5,
+    GAME_OVER
 }

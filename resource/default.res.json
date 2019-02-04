@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,background_png,glass_plate_png,glass_plate-broken_png,wood_background_png,green_button_png,green_pushedButton_png,iron_plate_radiation_png,iron_plate_parallel_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,background_png,glass_plate_png,glass_plate-broken_png,wood_background_png,green_button_png,green_pushedButton_png,iron_plate_radiation_png,iron_plate_parallel_png,iron_plate_radiation2_png",
 			"name": "preload"
 		}
 	],
@@ -142,39 +142,64 @@
 			"name": "background_png"
 		},
 		{
-			"name": "glass_plate_png",
+			"url": "img/glass_plate.png",
 			"type": "image",
-			"url": "img/glass_plate.png"
+			"name": "glass_plate_png"
 		},
 		{
-			"name": "glass_plate-broken_png",
+			"url": "img/glass_plate-broken.png",
 			"type": "image",
-			"url": "img/glass_plate-broken.png"
+			"name": "glass_plate-broken_png"
 		},
 		{
-			"name": "wood_background_png",
+			"url": "img/wood_background.png",
 			"type": "image",
-			"url": "img/wood_background.png"
+			"name": "wood_background_png"
 		},
 		{
-			"name": "green_button_png",
+			"url": "img/green_button.png",
 			"type": "image",
-			"url": "img/green_button.png"
+			"name": "green_button_png"
 		},
 		{
-			"name": "green_pushedButton_png",
+			"url": "img/green_pushedButton.png",
 			"type": "image",
-			"url": "img/green_pushedButton.png"
+			"name": "green_pushedButton_png"
 		},
 		{
-			"name": "iron_plate_radiation_png",
+			"url": "img/iron_plate_radiation.png",
 			"type": "image",
-			"url": "img/iron_plate_radiation.png"
+			"name": "iron_plate_radiation_png"
 		},
 		{
-			"name": "iron_plate_parallel_png",
+			"url": "img/iron_plate_parallel.png",
 			"type": "image",
-			"url": "img/iron_plate_parallel.png"
+			"name": "iron_plate_parallel_png"
+		},
+		{
+			"url": "img/green_button.png",
+			"type": "image",
+			"name": "green_button2_png"
+		},
+		{
+			"url": "img/green_pushedButton.png",
+			"type": "image",
+			"name": "green_pushedButton2_png"
+		},
+		{
+			"url": "img/iron_plate_parallel.png",
+			"type": "image",
+			"name": "iron_plate_parallel2_png"
+		},
+		{
+			"url": "img/iron_plate_radiation.png",
+			"type": "image",
+			"name": "iron_plate_radiation2_png"
+		},
+		{
+			"url": "img/wood_background.png",
+			"type": "image",
+			"name": "wood_background2_png"
 		}
 	]
 }

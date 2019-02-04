@@ -137,6 +137,8 @@ var CreateGameStage = (function (_super) {
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
                 break;
+            case Stage.GAME_OVER:
+                break;
         }
     };
     /**
@@ -144,9 +146,11 @@ var CreateGameStage = (function (_super) {
      * Generate Glass Plates
      */
     CreateGameStage.prototype.generatePlates = function () {
-        this.changeStageLevel();
-        var generatePlate = new GeneratePlate(); //プレートの生成
-        this.stage.addChild(generatePlate);
+        if (Main.stageLevel != Stage.GAME_OVER) {
+            this.changeStageLevel();
+            var generatePlate = new GeneratePlate(); //プレートの生成
+            this.stage.addChild(generatePlate);
+        }
     };
     /**
      * ステージレベルの変更
@@ -204,4 +208,14 @@ var CreateGameStage = (function (_super) {
     return CreateGameStage;
 }(egret.DisplayObjectContainer));
 __reflect(CreateGameStage.prototype, "CreateGameStage");
+var Stage;
+(function (Stage) {
+    Stage[Stage["TITLE"] = 0] = "TITLE";
+    Stage[Stage["STAGE1"] = 1] = "STAGE1";
+    Stage[Stage["STAGE2"] = 2] = "STAGE2";
+    Stage[Stage["STAGE3"] = 3] = "STAGE3";
+    Stage[Stage["STAGE4"] = 4] = "STAGE4";
+    Stage[Stage["STAGE5"] = 5] = "STAGE5";
+    Stage[Stage["GAME_OVER"] = 6] = "GAME_OVER";
+})(Stage || (Stage = {}));
 //# sourceMappingURL=CreateGameStage.js.map

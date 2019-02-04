@@ -237,7 +237,9 @@
             break;
             case GlassPlateType.IRON:
                 console.log("GameOver");
-                
+               Main.stageLevel = Stage.GAME_OVER;
+               const gameOver : GameOver = new GameOver();
+               this.addChild(gameOver);
 
             break;
         }

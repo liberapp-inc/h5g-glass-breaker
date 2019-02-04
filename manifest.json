@@ -14,6 +14,7 @@
 		"bin-debug/Main.js",
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/CreateGameStage.js",
+		"bin-debug/GameOver.js",
 		"bin-debug/GeneratePlate.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/BrokenGlassDisplay.js",
