@@ -120,23 +120,29 @@ var TimeDisplay = (function (_super) {
             }
         ];
         this.addChild(this.timeText);
-        var timer = new egret.Timer(1000, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
-        timer.start();
+        this.timer = new egret.Timer(1000, 0);
+        this.timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
+        this.timer.start();
     };
     /**
      * 残り時間を減らす
      */
     TimeDisplay.prototype.decreaseTime = function () {
-        TimeDisplay.leftTime -= 1;
-        //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
-        this.timeText.textFlow = [
-            { text: "残り時間" + TimeDisplay.leftTime.toString(),
-                style: {
-                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+        if (Main.stageLevel != Stage.GAME_OVER) {
+            TimeDisplay.leftTime -= 1;
+            //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
+            this.timeText.textFlow = [
+                { text: "残り時間" + TimeDisplay.leftTime.toString(),
+                    style: {
+                        "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                    }
                 }
-            }
-        ];
+            ];
+        }
+        else {
+            this.timer.stop();
+            this.timer.removeEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
+        }
         return false;
     };
     /**

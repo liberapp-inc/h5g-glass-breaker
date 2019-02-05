@@ -1,4 +1,24 @@
 　class GeneratePlate extends  egret.DisplayObjectContainer {
+    /**
+     * ガラスのプロパティ
+     * propaty of glass
+     */
+    private glassPlateType : number = GlassPlateType.GLASS;
+    private glassPlateMoveDirection : number;
+    private glassPlateImage : egret.Bitmap;
+    private glassPlateImagePosition : number;
+    //private glassPlateImagePositionX : number;
+    //private glassPlateImagePositionY : number;
+    private glassPlateMoveFlag : boolean = false;//trueで移動可能
+    private glassPlateMoveSpeedX : number = 1;
+    private glassPlateMoveSpeedY : number = 1;
+    static glassPlateMoveSpeedMagnification : number = 1;
+
+    static glassBreakNumber : number = 0;//ガラスを破壊した数
+    static breakComboNumber :number = 0;//コンボ数
+    static breakComboBonus : number = 1;
+
+    static score : number = 0;
 
         public constructor() {
         super();
@@ -38,26 +58,6 @@
         return result;
     }
 
-    /**
-     * ガラスのプロパティ
-     * propaty of glass
-     */
-    private glassPlateType : number = GlassPlateType.GLASS;
-    private glassPlateMoveDirection : number;
-    private glassPlateImage : egret.Bitmap;
-    private glassPlateImagePosition : number;
-    //private glassPlateImagePositionX : number;
-    //private glassPlateImagePositionY : number;
-    private glassPlateMoveFlag : boolean = false;//trueで移動可能
-    private glassPlateMoveSpeedX : number = 1;
-    private glassPlateMoveSpeedY : number = 1;
-    static glassPlateMoveSpeedMagnification : number = 1;
-
-    static glassBreakNumber : number = 0;//ガラスを破壊した数
-    static breakComboNumber :number = 0;//コンボ数
-    static breakComboBonus : number = 1;
-
-    static score : number = 0;
     
     /**
      * ガラスの生成
@@ -162,7 +162,7 @@
      * Move glasses
      */
     private moveGlassPlate() : boolean{
-        if(this.glassPlateMoveFlag == true){
+        if(this.glassPlateMoveFlag == true && Main.stageLevel != Stage.GAME_OVER){
             
             //ガラスの出現位置の決定
             switch(this.glassPlateImagePosition){
@@ -192,6 +192,11 @@
             this.glassPlateImage.y += this.glassPlateMoveSpeedY;
 
             
+        }
+        else if (Main.stageLevel == Stage.GAME_OVER){
+            this.moveStop();
+            this.glassPlateImage.alpha = 0;
+            egret.stopTick(this.fadeMethod,this.glassPlateImage);
         }
 
         return false;
@@ -236,30 +241,12 @@
 
             break;
             case GlassPlateType.IRON:
-                console.log("GameOver");
                Main.stageLevel = Stage.GAME_OVER;
                const gameOver : GameOver = new GameOver();
                this.addChild(gameOver);
 
             break;
         }
-
-        //Preserve the variables of glass that are position and scale
-/*        let clickedGlassPositionX : number = this.glassPlateImage.x;
-        let clickedGlassPositionY : number = this.glassPlateImage.y;
-        let clickedGlassScaleX : number = this.glassPlateImage.scaleX;
-        let clickedGlassScaleY : number = this.glassPlateImage.scaleY;
-        
-        //Change a glass image to broken glass image
-        this.removeChild(this.glassPlateImage);
-        this.glassPlateImage = this.createBitmapByName("glass_plate-broken_png");
-        this.glassPlateImage.x = clickedGlassPositionX
-        this.glassPlateImage.y = clickedGlassPositionY
-        this.glassPlateImage.scaleX =clickedGlassScaleX;
-        this.glassPlateImage.scaleY =clickedGlassScaleY;
-        this.addChild(this.glassPlateImage);
-
-        this.fadeBrokenGlass();*/
 
         
     }
@@ -370,13 +357,7 @@
     set setGlassPlateMoveSpeedY(value : number) {
         this.glassPlateMoveSpeedY = value;
     }
-/*    get getGlassPlateMoveSpeedMagnification() : number {
-        return this.glassPlateMoveSpeedMagnification;
-    }
-    set setGlassPlateMoveSpeedMagnification(value : number) {
-        this.glassPlateMoveSpeedMagnification = value;
-    }
-*/
+
 
 
 }

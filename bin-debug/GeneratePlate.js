@@ -187,7 +187,7 @@ var GeneratePlate = (function (_super) {
      * Move glasses
      */
     GeneratePlate.prototype.moveGlassPlate = function () {
-        if (this.glassPlateMoveFlag == true) {
+        if (this.glassPlateMoveFlag == true && Main.stageLevel != Stage.GAME_OVER) {
             //ガラスの出現位置の決定
             switch (this.glassPlateImagePosition) {
                 case GlassPosition.UP:
@@ -209,6 +209,11 @@ var GeneratePlate = (function (_super) {
             }
             this.glassPlateImage.x += this.glassPlateMoveSpeedX;
             this.glassPlateImage.y += this.glassPlateMoveSpeedY;
+        }
+        else if (Main.stageLevel == Stage.GAME_OVER) {
+            this.moveStop();
+            this.glassPlateImage.alpha = 0;
+            egret.stopTick(this.fadeMethod, this.glassPlateImage);
         }
         return false;
     };
@@ -244,28 +249,11 @@ var GeneratePlate = (function (_super) {
                 this.fadeBrokenGlass();
                 break;
             case GlassPlateType.IRON:
-                console.log("GameOver");
                 Main.stageLevel = Stage.GAME_OVER;
                 var gameOver = new GameOver();
                 this.addChild(gameOver);
                 break;
         }
-        //Preserve the variables of glass that are position and scale
-        /*        let clickedGlassPositionX : number = this.glassPlateImage.x;
-                let clickedGlassPositionY : number = this.glassPlateImage.y;
-                let clickedGlassScaleX : number = this.glassPlateImage.scaleX;
-                let clickedGlassScaleY : number = this.glassPlateImage.scaleY;
-                
-                //Change a glass image to broken glass image
-                this.removeChild(this.glassPlateImage);
-                this.glassPlateImage = this.createBitmapByName("glass_plate-broken_png");
-                this.glassPlateImage.x = clickedGlassPositionX
-                this.glassPlateImage.y = clickedGlassPositionY
-                this.glassPlateImage.scaleX =clickedGlassScaleX;
-                this.glassPlateImage.scaleY =clickedGlassScaleY;
-                this.addChild(this.glassPlateImage);
-        
-                this.fadeBrokenGlass();*/
     };
     GeneratePlate.prototype.fadeBrokenGlass = function () {
         if (this.fadeFlag == false) {

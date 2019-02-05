@@ -47,7 +47,6 @@ var CreateGameStage = (function (_super) {
     __extends(CreateGameStage, _super);
     function CreateGameStage() {
         var _this = _super.call(this) || this;
-        _this.glassGenerateSpeed = 1000;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
         /*        this.runGame().catch(e => {
@@ -110,10 +109,11 @@ var CreateGameStage = (function (_super) {
      * ゲームシーンの作成
      */
     CreateGameStage.prototype.createGameScene = function () {
+        console.log(Main.stageLevel);
         switch (Main.stageLevel) {
             case Stage.TITLE:
                 var title = new Title();
-                this.addChild(title);
+                this.stage.addChild(title);
                 break;
             case Stage.STAGE1:
                 // 背景画像の設定/描画
@@ -122,7 +122,7 @@ var CreateGameStage = (function (_super) {
                 var stageH = this.stage.stageHeight;
                 background.width = stageW;
                 background.height = stageH;
-                this.addChild(background);
+                this.stage.addChild(background);
                 //Instance of Time
                 var timeDisplay = new TimeDisplay();
                 this.stage.addChild(timeDisplay);
@@ -133,7 +133,7 @@ var CreateGameStage = (function (_super) {
                 var scoreDisplay = new ScoreDisplay();
                 this.stage.addChild(scoreDisplay);
                 //Instance of glassPlate
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
                 break;
@@ -146,7 +146,7 @@ var CreateGameStage = (function (_super) {
      * Generate Glass Plates
      */
     CreateGameStage.prototype.generatePlates = function () {
-        if (Main.stageLevel != Stage.GAME_OVER) {
+        if (Main.stageLevel != Stage.TITLE && Main.stageLevel != Stage.GAME_OVER) {
             this.changeStageLevel();
             var generatePlate = new GeneratePlate(); //プレートの生成
             this.stage.addChild(generatePlate);
@@ -160,14 +160,14 @@ var CreateGameStage = (function (_super) {
         switch (TimeDisplay.leftTime) {
             case 60:
                 Main.stageLevel = Stage.STAGE1;
-                this.glassGenerateSpeed = 600;
+                CreateGameStage.glassGenerateSpeed = 600;
                 break;
             case 55:
                 Main.stageLevel = Stage.STAGE2;
                 //ガラスの生成スピードの変更
-                this.glassGenerateSpeed = 600;
+                CreateGameStage.glassGenerateSpeed = 600;
                 this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
                 //ガラスの移動スピードの変更
@@ -175,9 +175,9 @@ var CreateGameStage = (function (_super) {
                 break;
             case 50:
                 Main.stageLevel = Stage.STAGE3;
-                this.glassGenerateSpeed = 600;
+                CreateGameStage.glassGenerateSpeed = 600;
                 this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
                 //ガラスの移動スピードの変更
@@ -185,9 +185,9 @@ var CreateGameStage = (function (_super) {
                 break;
             case 45:
                 Main.stageLevel = Stage.STAGE4;
-                this.glassGenerateSpeed = 500;
+                CreateGameStage.glassGenerateSpeed = 500;
                 this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
                 //ガラスの移動スピードの変更
@@ -195,9 +195,9 @@ var CreateGameStage = (function (_super) {
                 break;
             case 40:
                 Main.stageLevel = Stage.STAGE5;
-                this.glassGenerateSpeed = 400;
+                CreateGameStage.glassGenerateSpeed = 400;
                 this.timer.stop();
-                this.timer = new egret.Timer(this.glassGenerateSpeed, 0);
+                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
                 //ガラスの移動スピードの変更
@@ -205,6 +205,7 @@ var CreateGameStage = (function (_super) {
                 break;
         }
     };
+    CreateGameStage.glassGenerateSpeed = 1000;
     return CreateGameStage;
 }(egret.DisplayObjectContainer));
 __reflect(CreateGameStage.prototype, "CreateGameStage");

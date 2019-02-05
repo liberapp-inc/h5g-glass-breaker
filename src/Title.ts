@@ -68,7 +68,6 @@
 
 
         //Playボタン
-        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadPlayButton,this);
         const playButton : eui.Button = new eui.Button();
         playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
         playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
@@ -85,7 +84,6 @@
     }
 */
     private sceneTransition() : void {
-        console.log("test");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.STAGE1;
         const createGameStage = new CreateGameStage();

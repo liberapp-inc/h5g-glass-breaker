@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GreenRetryButton" width="720" height="1280" xmlns:e="http://ns.egret.com/eui">
-	<e:Button label="Retry" x="360" y="750" anchorOffsetX="0" width="273.49" anchorOffsetY="0" height="111.97">
+	<e:Button label="Retry" x="360" y="750" anchorOffsetX="0" width="250" anchorOffsetY="0" height="120">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 			<e:Image width="100%" height="100%" source="green_button_png"/>

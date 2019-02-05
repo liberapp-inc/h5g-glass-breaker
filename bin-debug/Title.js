@@ -124,7 +124,6 @@ var Title = (function (_super) {
         this.euiGroup.height = this.stage.stageHeight;
         this.addChild(this.euiGroup);
         //Playボタン
-        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadPlayButton,this);
         var playButton = new eui.Button();
         playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
         playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
@@ -138,7 +137,6 @@ var Title = (function (_super) {
         }
     */
     Title.prototype.sceneTransition = function () {
-        console.log("test");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.STAGE1;
         var createGameStage = new CreateGameStage();

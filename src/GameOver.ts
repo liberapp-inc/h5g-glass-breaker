@@ -2,6 +2,7 @@
     //  変数
     private retryButtonStyle : egret.DisplayObject;
     private euiGroup : eui.Group ;
+    private scoreText : egret.TextField;
 
     constructor() {
         super();
@@ -50,7 +51,7 @@
     
 
     /**
-     * Titleの生成
+     * GameOver画面の生成
      */
     private GameOverDisplay(): void {
         const background = this.createBitmapByName("wood_background_png");
@@ -67,16 +68,18 @@
         this.addChild(this.euiGroup);
 
 
-        //Playボタン
-        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadretryButton,this);
+        //スコアの表示
+        this.score();
+
+        //Retryボタン Titleボタン
         const retryButton : eui.Button = new eui.Button();
         retryButton.skinName = "resource/eui_skins/GreenRetryButton.exml";
-        retryButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.retry, this);
+        retryButton.once(egret.TouchEvent.TOUCH_TAP, this.retry, this);
         this.euiGroup.addChild(retryButton);
 
         const titleButton : eui.Button = new eui.Button();
         titleButton.skinName = "resource/eui_skins/GreenTitleButton.exml";
-        titleButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.title, this);
+        titleButton.once(egret.TouchEvent.TOUCH_TAP, this.title, this);
         this.euiGroup.addChild(titleButton);
 
     }
@@ -89,21 +92,53 @@
     }
 */
     private retry() : void {
-        console.log("retry");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.STAGE1;
         const createGameStage = new CreateGameStage();
         this.stage.addChild(createGameStage);
+        this.parameterReset();
         
     }
 
     private title() : void {
-        console.log("title");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.TITLE;
         const createGameStage = new CreateGameStage();
         this.stage.addChild(createGameStage);
+        this.parameterReset();
+
+    }
+    
+    private score(){
+        this.scoreText = new egret.TextField();
+        this.scoreText.textFlow = <Array<egret.ITextElement>>[ 
+            {text: "スコア" + GeneratePlate.score.toString(), 
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
+        this.stage.addChild(this.scoreText);
+        this.scoreText.anchorOffsetX = this.scoreText.width/2;
+        this.scoreText.anchorOffsetY = this.scoreText.height/2;
+        this.scoreText.x = this.stage.stageWidth/2;
+        this.scoreText.y = this.stage.stageHeight/2;
+        this.scoreText.scaleX = 1;
+        this.scoreText.scaleY = 1;
         
+    }
+
+    /**
+     * スコアやタイム、ガラス破壊枚数やコンボ数等の初期化
+     */
+    private parameterReset(){
+        GeneratePlate.score = 0;
+        TimeDisplay.leftTime = 60;
+        GeneratePlate.glassBreakNumber = 0;
+        GeneratePlate.breakComboNumber = 0;
+        GeneratePlate.breakComboBonus  = 1;
+        CreateGameStage.glassGenerateSpeed = 1000;
+
     }
     
 

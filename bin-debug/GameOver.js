@@ -109,7 +109,7 @@ var GameOver = (function (_super) {
         return result;
     };
     /**
-     * Titleの生成
+     * GameOver画面の生成
      */
     GameOver.prototype.GameOverDisplay = function () {
         var background = this.createBitmapByName("wood_background_png");
@@ -123,15 +123,16 @@ var GameOver = (function (_super) {
         this.euiGroup.width = this.stage.stageWidth;
         this.euiGroup.height = this.stage.stageHeight;
         this.addChild(this.euiGroup);
-        //Playボタン
-        //EXML.load("resource/eui_skins/GreenButtonSkin.exml",this.loadretryButton,this);
+        //スコアの表示
+        this.score();
+        //Retryボタン Titleボタン
         var retryButton = new eui.Button();
         retryButton.skinName = "resource/eui_skins/GreenRetryButton.exml";
-        retryButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.retry, this);
+        retryButton.once(egret.TouchEvent.TOUCH_TAP, this.retry, this);
         this.euiGroup.addChild(retryButton);
         var titleButton = new eui.Button();
         titleButton.skinName = "resource/eui_skins/GreenTitleButton.exml";
-        titleButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.title, this);
+        titleButton.once(egret.TouchEvent.TOUCH_TAP, this.title, this);
         this.euiGroup.addChild(titleButton);
     };
     /*    private loadretryButton(clazz:any,url:string) :void {
@@ -142,18 +143,46 @@ var GameOver = (function (_super) {
         }
     */
     GameOver.prototype.retry = function () {
-        console.log("retry");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.STAGE1;
         var createGameStage = new CreateGameStage();
         this.stage.addChild(createGameStage);
+        this.parameterReset();
     };
     GameOver.prototype.title = function () {
-        console.log("title");
         this.removeChild(this.euiGroup);
         Main.stageLevel = Stage.TITLE;
         var createGameStage = new CreateGameStage();
         this.stage.addChild(createGameStage);
+        this.parameterReset();
+    };
+    GameOver.prototype.score = function () {
+        this.scoreText = new egret.TextField();
+        this.scoreText.textFlow = [
+            { text: "スコア" + GeneratePlate.score.toString(),
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
+        this.stage.addChild(this.scoreText);
+        this.scoreText.anchorOffsetX = this.scoreText.width / 2;
+        this.scoreText.anchorOffsetY = this.scoreText.height / 2;
+        this.scoreText.x = this.stage.stageWidth / 2;
+        this.scoreText.y = this.stage.stageHeight / 2;
+        this.scoreText.scaleX = 1;
+        this.scoreText.scaleY = 1;
+    };
+    /**
+     * スコアやタイム、ガラス破壊枚数やコンボ数等の初期化
+     */
+    GameOver.prototype.parameterReset = function () {
+        GeneratePlate.score = 0;
+        TimeDisplay.leftTime = 60;
+        GeneratePlate.glassBreakNumber = 0;
+        GeneratePlate.breakComboNumber = 0;
+        GeneratePlate.breakComboBonus = 1;
+        CreateGameStage.glassGenerateSpeed = 1000;
     };
     return GameOver;
 }(eui.UILayer));

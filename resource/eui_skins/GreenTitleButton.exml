@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GreenTitleButton" width="720" height="1280" xmlns:e="http://ns.egret.com/eui">
-	<e:Button label="TItle" x="80" y="760" anchorOffsetX="0" width="241" anchorOffsetY="0" height="127">
+	<e:Button label="TItle" x="80" y="750" anchorOffsetX="0" width="250" anchorOffsetY="0" height="120">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 			<e:Image width="100%" height="100%" source="green_button_png"/>
