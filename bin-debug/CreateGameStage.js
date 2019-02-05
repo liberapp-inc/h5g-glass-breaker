@@ -109,13 +109,14 @@ var CreateGameStage = (function (_super) {
      * ゲームシーンの作成
      */
     CreateGameStage.prototype.createGameScene = function () {
-        console.log(Main.stageLevel);
         switch (Main.stageLevel) {
             case Stage.TITLE:
                 var title = new Title();
                 this.stage.addChild(title);
                 break;
             case Stage.STAGE1:
+                //BGM
+                this.audio = new LoopGameAudio("resource/bgm/tsukitoiruka.mp3");
                 // 背景画像の設定/描画
                 var background = this.createBitmapByName("wood_background_png");
                 var stageW = this.stage.stageWidth;

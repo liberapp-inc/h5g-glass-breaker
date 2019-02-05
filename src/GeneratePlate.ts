@@ -222,6 +222,10 @@
 
         switch(this.glassPlateType){
             case GlassPlateType.GLASS:
+
+                //ガラスが割れる音
+                const audioGlass = new GameAudio("resource/bgm/glass-break4.mp3");
+
                 //Preserve the variables of glass that are position and scale
                 let clickedGlassPositionX : number = this.glassPlateImage.x;
                 let clickedGlassPositionY : number = this.glassPlateImage.y;
@@ -241,6 +245,8 @@
 
             break;
             case GlassPlateType.IRON:
+                //鉄を叩く音
+                const audioIron = new GameAudio("resource/bgm/bell04.mp3");
                Main.stageLevel = Stage.GAME_OVER;
                const gameOver : GameOver = new GameOver();
                this.addChild(gameOver);

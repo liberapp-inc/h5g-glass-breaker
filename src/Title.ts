@@ -74,6 +74,7 @@
         this.euiGroup.addChild(playButton);
 
 
+
     }
 
 /*    private loadPlayButton(clazz:any,url:string) :void {

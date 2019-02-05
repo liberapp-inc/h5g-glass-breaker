@@ -7,6 +7,8 @@
     static glassGenerateSpeed : number = 1000;
     private timer : egret.Timer;
 
+    private audio;
+
     constructor() {
         super();
         this.once( egret.Event.ADDED_TO_STAGE, this.runGame, this );
@@ -52,9 +54,7 @@
     /**
      * ゲームシーンの作成
      */
-    public createGameScene(): void {
-        console.log(Main.stageLevel);
-        
+    public createGameScene(): void {      
 
         switch(Main.stageLevel){
 
@@ -64,6 +64,10 @@
             break;
 
             case Stage.STAGE1:
+
+                //BGM
+                this.audio = new LoopGameAudio("resource/bgm/tsukitoiruka.mp3");
+
                 // 背景画像の設定/描画
                 let background = this.createBitmapByName("wood_background_png");
                 let stageW = this.stage.stageWidth;

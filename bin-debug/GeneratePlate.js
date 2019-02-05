@@ -233,6 +233,8 @@ var GeneratePlate = (function (_super) {
         this.moveStop();
         switch (this.glassPlateType) {
             case GlassPlateType.GLASS:
+                //ガラスが割れる音
+                var audioGlass = new GameAudio("resource/bgm/glass-break4.mp3");
                 //Preserve the variables of glass that are position and scale
                 var clickedGlassPositionX = this.glassPlateImage.x;
                 var clickedGlassPositionY = this.glassPlateImage.y;
@@ -249,6 +251,8 @@ var GeneratePlate = (function (_super) {
                 this.fadeBrokenGlass();
                 break;
             case GlassPlateType.IRON:
+                //鉄を叩く音
+                var audioIron = new GameAudio("resource/bgm/bell04.mp3");
                 Main.stageLevel = Stage.GAME_OVER;
                 var gameOver = new GameOver();
                 this.addChild(gameOver);
