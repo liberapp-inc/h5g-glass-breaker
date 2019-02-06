@@ -245,11 +245,6 @@ class CreateGameStage2 extends GameObject{
                 scoreText.scoreDisplay();
                 this.addChild(scoreText);
 
-/*                //Instance of glassPlate
-                this.generatePlate = new GeneratePlate2();
-                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed,0);
-                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
-                this.timer.start();*/
 
             break;
 

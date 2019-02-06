@@ -159,10 +159,6 @@ var Main = (function (_super) {
         switch (Main.stageLevel) {
             case Stage.TITLE:
                 break;
-            /*            case Stage.STAGE1:
-            
-            
-                        break;*/
             case Stage.GAME_OVER:
                 break;
             default:
@@ -171,6 +167,14 @@ var Main = (function (_super) {
                 this.generatePlate[this.plateNumber].generateGlassPlate();
                 this.stage.addChild(this.generatePlate[this.plateNumber]);
                 this.changeStageLevel();
+                if (TimeDisplay.leftTime <= 50) {
+                    TimeDisplay.leftTime = 0;
+                    Main.stageLevel = Stage.GAME_OVER;
+                    var gameOver = new GameOver2();
+                    gameOver.GameOverDisplay();
+                    this.stage.addChild(gameOver);
+                    console.log("game");
+                }
                 break;
         }
     };

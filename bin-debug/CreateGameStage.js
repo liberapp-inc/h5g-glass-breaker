@@ -256,11 +256,6 @@ var CreateGameStage2 = (function (_super) {
                 var scoreText = new ScoreText();
                 scoreText.scoreDisplay();
                 this.addChild(scoreText);
-                /*                //Instance of glassPlate
-                                this.generatePlate = new GeneratePlate2();
-                                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed,0);
-                                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
-                                this.timer.start();*/
                 break;
             case Stage.GAME_OVER:
                 break;

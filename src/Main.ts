@@ -127,11 +127,6 @@
 
             break;
 
-/*            case Stage.STAGE1:
-
-
-            break;*/
-
             case Stage.GAME_OVER:
 
             break;
@@ -143,6 +138,17 @@
                 this.generatePlate[this.plateNumber].generateGlassPlate();
                 this.stage.addChild(this.generatePlate[this.plateNumber]);
                 this.changeStageLevel();
+
+                //タイムアップでゲームオーバー
+                if(TimeDisplay.leftTime <= 0){
+                    TimeDisplay.leftTime = 0;
+                    Main.stageLevel = Stage.GAME_OVER;
+                    const gameOver : GameOver2 = new GameOver2();
+                    gameOver.GameOverDisplay();
+                    this.stage.addChild(gameOver);
+                    console.log("game");
+                    
+                }
                 
             break;
         }
