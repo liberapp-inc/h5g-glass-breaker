@@ -134,6 +134,7 @@ var CreateGameStage = (function (_super) {
                 var scoreDisplay = new ScoreDisplay();
                 this.stage.addChild(scoreDisplay);
                 //Instance of glassPlate
+                var generatePlate = new GeneratePlate(); //プレートの生成
                 this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlates, this);
                 this.timer.start();
@@ -220,4 +221,52 @@ var Stage;
     Stage[Stage["STAGE5"] = 5] = "STAGE5";
     Stage[Stage["GAME_OVER"] = 6] = "GAME_OVER";
 })(Stage || (Stage = {}));
+var CreateGameStage2 = (function (_super) {
+    __extends(CreateGameStage2, _super);
+    //private audio : LoopGameAudio;
+    function CreateGameStage2(stageLevel) {
+        var _this = _super.call(this) || this;
+        _this.stageLevel = stageLevel;
+        return _this;
+    }
+    CreateGameStage2.prototype.createGameScene = function () {
+        switch (this.stageLevel) {
+            case Stage.TITLE:
+                var title = new Title2();
+                title.titleDisplay();
+                this.addChild(title);
+                break;
+            case Stage.STAGE1:
+                // 背景画像の設定/描画
+                var background = this.createBitmapByName("wood_background_png");
+                var stageW = Main.stageWidth;
+                var stageH = Main.stageHeight;
+                background.width = stageW;
+                background.height = stageH;
+                this.addChild(background);
+                //残り時間の表示
+                var leftTime = new TimeText();
+                leftTime.timeDisplay();
+                this.addChild(leftTime);
+                //ガラスの破壊枚数の表示
+                var brokenGlassText = new BrokenGlassText();
+                brokenGlassText.brokenGlassDisplay();
+                this.addChild(brokenGlassText);
+                //スコアの表示
+                var scoreText = new ScoreText();
+                scoreText.scoreDisplay();
+                this.addChild(scoreText);
+                /*                //Instance of glassPlate
+                                this.generatePlate = new GeneratePlate2();
+                                this.timer = new egret.Timer(CreateGameStage.glassGenerateSpeed,0);
+                                this.timer.addEventListener(egret.TimerEvent.TIMER,this.generatePlates,this);
+                                this.timer.start();*/
+                break;
+            case Stage.GAME_OVER:
+                break;
+        }
+    };
+    return CreateGameStage2;
+}(GameObject));
+__reflect(CreateGameStage2.prototype, "CreateGameStage2");
 //# sourceMappingURL=CreateGameStage.js.map

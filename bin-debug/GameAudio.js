@@ -13,8 +13,8 @@ var GameAudio = (function (_super) {
     function GameAudio(url) {
         var _this = _super.call(this) || this;
         _this.url = url;
-        _this.startLoad();
         return _this;
+        //this.startLoad();
     }
     GameAudio.prototype.startLoad = function () {
         //创建 Sound 对象
@@ -43,8 +43,8 @@ var LoopGameAudio = (function (_super) {
     function LoopGameAudio(url) {
         var _this = _super.call(this) || this;
         _this.url = url;
-        _this.startLoad();
         return _this;
+        //this.startLoad();
     }
     LoopGameAudio.prototype.startLoad = function () {
         //创建 Sound 对象
@@ -58,9 +58,9 @@ var LoopGameAudio = (function (_super) {
         //获取加载到的 Sound 对象
         var sound = event.target;
         //播放音乐
-        var channel = sound.play(0, -1);
-        channel.volume = 0.3;
-        channel.addEventListener(egret.Event.SOUND_COMPLETE, this.onSoundComplete, this);
+        this.channel = sound.play(0, -1);
+        this.channel.volume = 0.3;
+        this.channel.addEventListener(egret.Event.SOUND_COMPLETE, this.onSoundComplete, this);
     };
     LoopGameAudio.prototype.onSoundComplete = function (event) {
         egret.log("onSoundComplete");

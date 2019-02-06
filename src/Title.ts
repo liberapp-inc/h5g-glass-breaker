@@ -96,3 +96,58 @@
 
 
 }
+
+/**
+ * Titleの生成
+ */
+class Title2 extends GameObject{
+
+    private euiGroup : eui.Group;
+
+    public titleDisplay(): void {
+
+        //euiグループ
+        this.euiGroup = new eui.Group();
+/*        this.euiGroup.width = this.stage.stageWidth;
+        this.euiGroup.height = this.stage.stageHeight;*/
+        this.addChild(this.euiGroup);
+       
+       //背景
+        const background = this.createBitmapByName("wood_background_png");
+        let stageW = Main.stageWidth;
+        let stageH = Main.stageHeight;
+        background.width = stageW;
+        background.height = stageH;
+        this.euiGroup.addChild(background);
+
+
+
+        //Playボタン
+        const playButton : eui.Button = new eui.Button();
+        playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
+        playButton.once(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        this.euiGroup.addChild(playButton);
+
+
+
+    }
+
+/*    private loadPlayButton(clazz:any,url:string) :void {
+        const playButton : eui.Button = new eui.Button();
+        playButton.skinName =clazz;
+        this.addChild(playButton);
+        playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+    }
+*/
+    private sceneTransition() : void {
+        Main.stageLevel = Stage.STAGE1;
+        const createGameStage = new CreateGameStage2(Main.stageLevel);
+        createGameStage.createGameScene();
+        this.addChild(createGameStage);
+        this.removeChild(this.euiGroup);
+        //BGM
+        const audio = new LoopGameAudio("resource/bgm/tsukitoiruka.mp3");
+        audio.startLoad();
+    }
+
+}

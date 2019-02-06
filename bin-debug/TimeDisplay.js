@@ -152,4 +152,53 @@ var TimeDisplay = (function (_super) {
     return TimeDisplay;
 }(eui.UILayer));
 __reflect(TimeDisplay.prototype, "TimeDisplay");
+var TimeDisplay2 = (function (_super) {
+    __extends(TimeDisplay2, _super);
+    function TimeDisplay2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    /**
+     * Timerの生成
+     */
+    TimeDisplay2.prototype.timeDisplay = function () {
+        this.timeText = new egret.TextField();
+        this.timeText.scaleX = 0.5;
+        this.timeText.scaleY = 0.5;
+        this.timeText.textFlow = [
+            { text: "残り時間" + TimeDisplay.leftTime.toString(),
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];
+        this.addChild(this.timeText);
+        this.timer = new egret.Timer(1000, 0);
+        this.timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
+        this.timer.start();
+    };
+    /**
+     * 残り時間を減らす
+     */
+    TimeDisplay2.prototype.decreaseTime = function () {
+        if (Main.stageLevel != Stage.GAME_OVER) {
+            TimeDisplay.leftTime -= 1;
+            //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
+            this.timeText.textFlow = [
+                { text: "残り時間" + TimeDisplay.leftTime.toString(),
+                    style: {
+                        "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                    }
+                }
+            ];
+        }
+        else {
+            this.timer.stop();
+            this.timer.removeEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
+        }
+        return false;
+    };
+    TimeDisplay2.leftTime = 60;
+    return TimeDisplay2;
+}(GameObject));
+__reflect(TimeDisplay2.prototype, "TimeDisplay2");
 //# sourceMappingURL=TimeDisplay.js.map

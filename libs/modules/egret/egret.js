@@ -13422,7 +13422,6 @@ var egret;
             console.assert.apply(console, toArray(arguments));
         };
         egret.log = function () {
-            console.log.apply(console, toArray(arguments));
         };
     })(sys = egret.sys || (egret.sys = {}));
 })(egret || (egret = {}));

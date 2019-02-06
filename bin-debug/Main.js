@@ -47,6 +47,8 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        _this.generatePlate = [];
+        _this.plateNumber = 0;
         var assetAdapter = new AssetAdapter();
         egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
         egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
@@ -54,17 +56,6 @@ var Main = (function (_super) {
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
-    /**
-     * ステージ追加時に一度発生する
-     * (UILayerクラスの継承元(Groupクラス)のメソッド)
-     */
-    /*    protected createChildren(): void {
-            super.createChildren();
-            
-            this.runGame().catch(e => {
-                console.log(e);
-            })
-        }*/
     /**
      *  リソース準備後にゲームシーンを作成する
     */
@@ -121,11 +112,193 @@ var Main = (function (_super) {
      * ゲームシーンの作成
      */
     Main.prototype.createGameScene = function () {
-        var createGameStage = new CreateGameStage();
+        Main.stageWidth = this.stage.stageWidth;
+        Main.stageHeight = this.stage.stageHeight;
+        egret.log(this.stage.stageWidth);
+        Main.stageLevel = Stage.TITLE;
+        var createGameStage = new CreateGameStage2(Main.stageLevel);
+        createGameStage.createGameScene();
         this.stage.addChild(createGameStage);
+        /*        //Plateの生成
+                for(let i =0; i <= 500; i++){
+        
+                }*/
+        //一個目のガラスPlateの生成　これがないとfixedUpdateのmoveGlassPlateが0個目のplateがなくてエラーになる
+        this.generatePlate[0] = new GeneratePlate2();
+        this.stage.addChild(this.generatePlate[0]);
+        this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+        this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+        this.timer.start();
+        //繰り返しメソッド
+        this.addEventListener(egret.Event.ENTER_FRAME, this.update, this);
+        egret.startTick(this.fixedUpdate, this);
     };
+    /**
+     * 繰り返し
+     */
+    Main.prototype.update = function () {
+    };
+    /**
+     * 固定フレームの繰り返し
+     */
+    Main.prototype.fixedUpdate = function () {
+        switch (Main.stageLevel) {
+            case Stage.TITLE:
+                break;
+            case Stage.GAME_OVER:
+                break;
+            default:
+                for (var i = 0; i <= this.plateNumber; i++) {
+                    this.generatePlate[i].moveGlassPlate();
+                }
+                break;
+        }
+        return false;
+    };
+    Main.prototype.generatePlateTimer = function () {
+        switch (Main.stageLevel) {
+            case Stage.TITLE:
+                break;
+            /*            case Stage.STAGE1:
+            
+            
+                        break;*/
+            case Stage.GAME_OVER:
+                break;
+            default:
+                this.plateNumber += 1;
+                this.generatePlate[this.plateNumber] = new GeneratePlate2();
+                this.generatePlate[this.plateNumber].generateGlassPlate();
+                this.stage.addChild(this.generatePlate[this.plateNumber]);
+                this.changeStageLevel();
+                break;
+        }
+    };
+    /**
+     * ステージレベルの変更
+     * Change stage level
+     */
+    Main.prototype.changeStageLevel = function () {
+        switch (TimeDisplay.leftTime) {
+            case 60:
+                Main.stageLevel = Stage.STAGE1;
+                Main.glassGenerateSpeed = 600;
+                break;
+            case 55:
+                Main.stageLevel = Stage.STAGE2;
+                //ガラスの生成スピードの変更
+                Main.glassGenerateSpeed = 600;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 2;
+                break;
+            case 50:
+                Main.stageLevel = Stage.STAGE3;
+                Main.glassGenerateSpeed = 600;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 3;
+                break;
+            case 45:
+                Main.stageLevel = Stage.STAGE4;
+                Main.glassGenerateSpeed = 500;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 4;
+                break;
+            case 40:
+                Main.stageLevel = Stage.STAGE5;
+                Main.glassGenerateSpeed = 400;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 10;
+                break;
+        }
+    };
+    Main.glassGenerateSpeed = 1000;
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
 // Main Class はここまで
+/**
+ * ゲームオブジェクトを呼び出すときのテンプレjsonの読み込み等
+ */
+var GameObject = (function (_super) {
+    __extends(GameObject, _super);
+    function GameObject() {
+        var _this = _super.call(this) || this;
+        var assetAdapter = new AssetAdapter();
+        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+        return _this;
+    }
+    /**
+     *  リソース準備後にゲームシーンを作成する
+    */
+    GameObject.prototype.runGame = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.loadResource()];
+                    case 1:
+                        _a.sent();
+                        this.createGameObject();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * リソース読み込み準備
+     * default.res.jsonから画像データを取得する為のRES設定を行う
+    */
+    GameObject.prototype.loadResource = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, RES.loadConfig("resource/default.res.json", "resource/")];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, RES.loadGroup("preload")];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_2 = _a.sent();
+                        console.error(e_2);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 引数のnameからBitmapデータを取得する。name属性の参考：resources/resource.json
+     */
+    GameObject.prototype.createBitmapByName = function (name) {
+        var result = new egret.Bitmap();
+        var texture = RES.getRes(name);
+        result.texture = texture;
+        return result;
+    };
+    GameObject.prototype.createGameObject = function () {
+    };
+    return GameObject;
+}(egret.DisplayObjectContainer));
+__reflect(GameObject.prototype, "GameObject");
 //# sourceMappingURL=Main.js.map

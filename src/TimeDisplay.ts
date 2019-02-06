@@ -108,3 +108,55 @@
 
 
 }
+
+class TimeDisplay2 extends GameObject{
+
+    static leftTime : number = 60;
+    private timeText : egret.TextField;
+    private timer : egret.Timer;
+    /**
+     * Timerの生成
+     */
+    private timeDisplay(): void {
+        this.timeText = new egret.TextField();
+        this.timeText.scaleX = 0.5;
+        this.timeText.scaleY = 0.5;
+        this.timeText.textFlow = <Array<egret.ITextElement>>[ 
+            {text: "残り時間" + TimeDisplay.leftTime.toString(), 
+                style: {
+                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                }
+            }
+        ];    
+        this.addChild(this.timeText);
+
+        this.timer = new egret.Timer(1000,0);
+        this.timer.addEventListener(egret.TimerEvent.TIMER,this.decreaseTime,this);
+        this.timer.start();
+
+    }
+
+    /**
+     * 残り時間を減らす
+     */
+    public decreaseTime() : boolean{
+        if(Main.stageLevel != Stage.GAME_OVER){
+            TimeDisplay.leftTime -= 1;
+            //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
+            this.timeText.textFlow = <Array<egret.ITextElement>>[ 
+                {text: "残り時間" + TimeDisplay.leftTime.toString(), 
+                    style: {
+                        "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
+                    }
+                }
+            ];    
+
+        }
+        else{
+            this.timer.stop();
+            this.timer.removeEventListener(egret.TimerEvent.TIMER,this.decreaseTime,this);
+        }
+        return false;
+
+    }
+}

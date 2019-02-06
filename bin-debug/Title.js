@@ -145,4 +145,51 @@ var Title = (function (_super) {
     return Title;
 }(eui.UILayer));
 __reflect(Title.prototype, "Title");
+/**
+ * Titleの生成
+ */
+var Title2 = (function (_super) {
+    __extends(Title2, _super);
+    function Title2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Title2.prototype.titleDisplay = function () {
+        //euiグループ
+        this.euiGroup = new eui.Group();
+        /*        this.euiGroup.width = this.stage.stageWidth;
+                this.euiGroup.height = this.stage.stageHeight;*/
+        this.addChild(this.euiGroup);
+        //背景
+        var background = this.createBitmapByName("wood_background_png");
+        var stageW = Main.stageWidth;
+        var stageH = Main.stageHeight;
+        background.width = stageW;
+        background.height = stageH;
+        this.euiGroup.addChild(background);
+        //Playボタン
+        var playButton = new eui.Button();
+        playButton.skinName = "resource/eui_skins/GreenButtonSkin.exml";
+        playButton.once(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        this.euiGroup.addChild(playButton);
+    };
+    /*    private loadPlayButton(clazz:any,url:string) :void {
+            const playButton : eui.Button = new eui.Button();
+            playButton.skinName =clazz;
+            this.addChild(playButton);
+            playButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sceneTransition, this);
+        }
+    */
+    Title2.prototype.sceneTransition = function () {
+        Main.stageLevel = Stage.STAGE1;
+        var createGameStage = new CreateGameStage2(Main.stageLevel);
+        createGameStage.createGameScene();
+        this.addChild(createGameStage);
+        this.removeChild(this.euiGroup);
+        //BGM
+        var audio = new LoopGameAudio("resource/bgm/tsukitoiruka.mp3");
+        audio.startLoad();
+    };
+    return Title2;
+}(GameObject));
+__reflect(Title2.prototype, "Title2");
 //# sourceMappingURL=Title.js.map
