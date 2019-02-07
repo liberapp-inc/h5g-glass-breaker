@@ -140,12 +140,9 @@ var Main = (function (_super) {
             case Stage.TITLE:
                 break;
             case Stage.GAME_OVER:
-                console.log(Main.gameOverFlag);
                 if (Main.gameOverFlag == true) {
                     for (var i = 0; i <= Main.plateNumber; i++) {
-                        console.log(this.generatePlate[i]);
                         this.stage.removeChild(this.generatePlate[i]);
-                        console.log("c");
                     }
                     this.generatePlate[0] = new GeneratePlate();
                     this.stage.addChild(this.generatePlate[0]);
