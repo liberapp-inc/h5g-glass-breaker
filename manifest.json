@@ -12,18 +12,15 @@
 	],
 	"game": [
 		"bin-debug/Main.js",
-		"bin-debug/AssetAdapter.js",
-		"bin-debug/CreateGameStage.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/GameAudio.js",
 		"bin-debug/GameOver.js",
 		"bin-debug/GeneratePlate.js",
-		"bin-debug/LoadingUI.js",
-		"bin-debug/BrokenGlassDisplay.js",
+		"bin-debug/CreateGameStage.js",
+		"bin-debug/AssetAdapter.js",
 		"bin-debug/MyText.js",
 		"bin-debug/Platform.js",
-		"bin-debug/ScoreDisplay.js",
 		"bin-debug/ThemeAdapter.js",
-		"bin-debug/TimeDisplay.js",
 		"bin-debug/Title.js"
 	]
 }

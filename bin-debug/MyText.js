@@ -53,43 +53,35 @@ var TimeText = (function (_super) {
      * Timerの生成
      */
     TimeText.prototype.timeDisplay = function () {
-        this.timeText = new MyText("残り時間" + TimeDisplay.leftTime.toString());
-        /*        this.timeText.scaleX = 0.5;
-                this.timeText.scaleY = 0.5;
-                this.timeText.textFlow = <Array<egret.ITextElement>>[
-                    {text: "残り時間" + TimeDisplay.leftTime.toString(),
-                        style: {
-                            "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                        }
-                    }
-                ];    */
+        this.timeText = new MyText("残り時間" + TimeText.leftTime.toString());
         this.addChild(this.timeText);
         this.timer = new egret.Timer(1000, 0);
         this.timer.addEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
         this.timer.start();
+        this.addEventListener(egret.Event.ENTER_FRAME, this.update, this);
     };
     /**
      * 残り時間を減らす
      */
     TimeText.prototype.decreaseTime = function () {
         if (Main.stageLevel != Stage.GAME_OVER) {
-            TimeDisplay.leftTime -= 1;
-            this.timeText.updateText("残り時間" + TimeDisplay.leftTime.toString());
-            //this.timeText.text = "残り時間" + TimeDisplay.leftTime.toString();
-            /*            this.timeText.textFlow = <Array<egret.ITextElement>>[
-                            {text: "残り時間" + TimeDisplay.leftTime.toString(),
-                                style: {
-                                    "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                                }
-                            }
-                        ];
-            */
+            TimeText.leftTime -= 1;
+            this.timeText.updateText("残り時間" + TimeText.leftTime.toString());
         }
         else {
             this.timer.stop();
             this.timer.removeEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
         }
         return false;
+    };
+    TimeText.prototype.update = function () {
+        if (Main.stageLevel == Stage.GAME_OVER) {
+            this.timer.stop();
+            this.timer.removeEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
+            console.log("as");
+            this.removeEventListener(egret.Event.ENTER_FRAME, this.update, this);
+            TimeText.leftTime = 60;
+        }
     };
     TimeText.leftTime = 60;
     return TimeText;
@@ -106,15 +98,6 @@ var BrokenGlassText = (function (_super) {
     BrokenGlassText.prototype.brokenGlassDisplay = function () {
         this.brokenGlassText = new MyText("破壊枚数" + GeneratePlate.glassBreakNumber.toString());
         this.brokenGlassText.x = 300;
-        /*        this.brokenGlassText.scaleX = 0.5;
-                this.brokenGlassText.scaleY = 0.5;
-                this.brokenGlassText.textFlow = <Array<egret.ITextElement>>[
-                    {text: "破壊枚数" + GeneratePlate.glassBreakNumber.toString(),
-                        style: {
-                            "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                        }
-                    }
-                ];*/
         this.addChild(this.brokenGlassText);
         this.addEventListener(egret.Event.ENTER_FRAME, this.addBrokenGlassNumber, this);
     };
@@ -125,14 +108,6 @@ var BrokenGlassText = (function (_super) {
         else {
             this.removeEventListener(egret.Event.ENTER_FRAME, this.addBrokenGlassNumber, this);
         }
-        /*        this.brokenGlassText.text =  "破壊枚数" + GeneratePlate.glassBreakNumber.toString();
-                this.brokenGlassText.textFlow = <Array<egret.ITextElement>>[
-                    {text: "破壊枚数" + GeneratePlate.glassBreakNumber.toString(),
-                        style: {
-                            "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                        }
-                    }
-                ];*/
     };
     return BrokenGlassText;
 }(GameObject));
@@ -146,16 +121,7 @@ var ScoreText = (function (_super) {
         this.scoreText = new MyText("スコア" + GeneratePlate.score.toString());
         this.scoreText.x = 300;
         this.scoreText.y = 100;
-        /*        this.scoreText.scaleX = 0.5;
-                this.scoreText.scaleY = 0.5;
-                this.scoreText.textFlow = <Array<egret.ITextElement>>[
-                    {text: "スコア" + GeneratePlate.score.toString(),
-                        style: {
-                            "textColor": 0x336699, "size": 100, "strokeColor": 0x6699cc, "stroke": 2, "fontFamily": "Meiryo"
-                        }
-                    }
-                ];
-        */ this.addChild(this.scoreText);
+        this.addChild(this.scoreText);
         this.addEventListener(egret.Event.ENTER_FRAME, this.addScore, this);
     };
     ScoreText.prototype.addScore = function () {

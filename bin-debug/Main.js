@@ -116,7 +116,7 @@ var Main = (function (_super) {
         Main.stageHeight = this.stage.stageHeight;
         egret.log(this.stage.stageWidth);
         Main.stageLevel = Stage.TITLE;
-        var createGameStage = new CreateGameStage2(Main.stageLevel);
+        var createGameStage = new CreateGameStage(Main.stageLevel);
         createGameStage.createGameScene();
         this.stage.addChild(createGameStage);
         /*        //Plateの生成
@@ -124,7 +124,7 @@ var Main = (function (_super) {
         
                 }*/
         //一個目のガラスPlateの生成　これがないとfixedUpdateのmoveGlassPlateが0個目のplateがなくてエラーになる
-        this.generatePlate[0] = new GeneratePlate2();
+        this.generatePlate[0] = new GeneratePlate();
         this.stage.addChild(this.generatePlate[0]);
         this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
         this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
@@ -163,17 +163,17 @@ var Main = (function (_super) {
                 break;
             default:
                 this.plateNumber += 1;
-                this.generatePlate[this.plateNumber] = new GeneratePlate2();
+                this.generatePlate[this.plateNumber] = new GeneratePlate();
                 this.generatePlate[this.plateNumber].generateGlassPlate();
                 this.stage.addChild(this.generatePlate[this.plateNumber]);
                 this.changeStageLevel();
-                if (TimeDisplay.leftTime <= 50) {
-                    TimeDisplay.leftTime = 0;
+                //タイムアップでゲームオーバー
+                if (TimeText.leftTime <= 0) {
+                    TimeText.leftTime = 0;
                     Main.stageLevel = Stage.GAME_OVER;
-                    var gameOver = new GameOver2();
+                    var gameOver = new GameOver();
                     gameOver.GameOverDisplay();
                     this.stage.addChild(gameOver);
-                    console.log("game");
                 }
                 break;
         }
@@ -183,7 +183,7 @@ var Main = (function (_super) {
      * Change stage level
      */
     Main.prototype.changeStageLevel = function () {
-        switch (TimeDisplay.leftTime) {
+        switch (TimeText.leftTime) {
             case 60:
                 Main.stageLevel = Stage.STAGE1;
                 Main.glassGenerateSpeed = 600;
