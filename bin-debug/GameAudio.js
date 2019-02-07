@@ -33,7 +33,7 @@ var GameAudio = (function (_super) {
         channel.addEventListener(egret.Event.SOUND_COMPLETE, this.onSoundComplete, this);
     };
     GameAudio.prototype.onSoundComplete = function (event) {
-        egret.log("onSoundComplete");
+        //egret.log("onSoundComplete");
     };
     return GameAudio;
 }(egret.DisplayObjectContainer));

@@ -176,7 +176,7 @@ var GeneratePlate = (function (_super) {
      * タッチイベント
      * TouchEvent
      */
-    GeneratePlate.prototype.glassTouch = function (evt) {
+    GeneratePlate.prototype.glassTouch = function () {
         this.moveStop();
         switch (this.glassPlateType) {
             case GlassPlateType.GLASS:
@@ -203,9 +203,10 @@ var GeneratePlate = (function (_super) {
                 var audioIron = new GameAudio("resource/bgm/bell04.mp3");
                 audioIron.startLoad();
                 Main.stageLevel = Stage.GAME_OVER;
-                var gameOver = new GameOver();
-                gameOver.GameOverDisplay();
-                this.addChild(gameOver);
+                /*                const gameOver : GameOver = new GameOver();
+                                gameOver.GameOverDisplay();
+                                this.addChild(gameOver);*/
+                Main.gameOverFlag = true;
                 break;
         }
     };

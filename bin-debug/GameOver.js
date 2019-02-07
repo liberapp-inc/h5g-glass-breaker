@@ -53,7 +53,7 @@ var GameOver = (function (_super) {
         Main.stageLevel = Stage.TITLE;
         var createGameStage = new CreateGameStage(Main.stageLevel);
         createGameStage.createGameScene();
-        this.stage.addChild(createGameStage);
+        this.addChild(createGameStage);
         this.parameterReset();
     };
     GameOver.prototype.score = function () {
@@ -82,7 +82,9 @@ var GameOver = (function (_super) {
         GeneratePlate.glassBreakNumber = 0;
         GeneratePlate.breakComboNumber = 0;
         GeneratePlate.breakComboBonus = 1;
+        Main.plateNumber = 0;
         CreateGameStage.glassGenerateSpeed = 1000;
+        Main.gameOverFlag = false;
     };
     return GameOver;
 }(GameObject));

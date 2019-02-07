@@ -55,7 +55,7 @@ class GameOver extends GameObject{
         Main.stageLevel = Stage.TITLE;
         const createGameStage = new CreateGameStage(Main.stageLevel);
         createGameStage.createGameScene();
-        this.stage.addChild(createGameStage);
+        this.addChild(createGameStage);
         this.parameterReset();
 
     }
@@ -88,7 +88,9 @@ class GameOver extends GameObject{
         GeneratePlate.glassBreakNumber = 0;
         GeneratePlate.breakComboNumber = 0;
         GeneratePlate.breakComboBonus  = 1;
+        Main.plateNumber = 0;
         CreateGameStage.glassGenerateSpeed = 1000;
+        Main.gameOverFlag = false;
 
     }
 

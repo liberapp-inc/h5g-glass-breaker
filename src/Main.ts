@@ -7,8 +7,10 @@
         //timer
         private timer : egret.Timer;
         private generatePlate : GeneratePlate[] = [];
-        private plateNumber : number = 0;
+        static plateNumber : number = 0;
         static glassGenerateSpeed : number = 1000;
+
+        static gameOverFlag : boolean = false;
 
 
         
@@ -61,18 +63,12 @@
     private createGameScene(): void {
         Main.stageWidth = this.stage.stageWidth;
         Main.stageHeight = this.stage.stageHeight;
-        egret.log( this.stage.stageWidth);
         
         Main.stageLevel = Stage.TITLE;
         const createGameStage = new CreateGameStage(Main.stageLevel);
         createGameStage.createGameScene();
         this.stage.addChild(createGameStage);
 
-
-/*        //Plateの生成
-        for(let i =0; i <= 500; i++){
-
-        }*/
         //一個目のガラスPlateの生成　これがないとfixedUpdateのmoveGlassPlateが0個目のplateがなくてエラーになる
         this.generatePlate[0] = new GeneratePlate();
         this.stage.addChild(this.generatePlate[0]);
@@ -108,11 +104,26 @@
             break;
 
             case Stage.GAME_OVER:
-
+            console.log(Main.gameOverFlag);
+            
+                if(Main.gameOverFlag == true){
+                    
+                    for(let i = 0; i <= Main.plateNumber; i++){
+                    console.log(this.generatePlate[i]);
+                        this.stage.removeChild(this.generatePlate[i]);
+                        console.log("c");
+                    }
+                    this.generatePlate[0] = new GeneratePlate();
+                    this.stage.addChild(this.generatePlate[0]);
+                    const gameOver : GameOver = new GameOver();
+                    gameOver.GameOverDisplay();
+                    this.stage.addChild(gameOver);
+                    Main.gameOverFlag = false;
+                }
             break;
 
             default:
-                for(let i = 0; i <= this.plateNumber; i++){
+                for(let i = 0; i <= Main.plateNumber; i++){
                     this.generatePlate[i].moveGlassPlate();
                 }
             break;
@@ -133,14 +144,14 @@
 
             default:
 
-                this.plateNumber +=1;
-                this.generatePlate[this.plateNumber] = new GeneratePlate();
-                this.generatePlate[this.plateNumber].generateGlassPlate();
-                this.stage.addChild(this.generatePlate[this.plateNumber]);
+                Main.plateNumber +=1;
+                this.generatePlate[Main.plateNumber] = new GeneratePlate();
+                this.generatePlate[Main.plateNumber].generateGlassPlate();
+                this.stage.addChild(this.generatePlate[Main.plateNumber]);
                 this.changeStageLevel();
 
                 //タイムアップでゲームオーバー
-                if(TimeText.leftTime <= 0){
+                if(TimeText.leftTime <= 0 ){
                     TimeText.leftTime = 0;
                     Main.stageLevel = Stage.GAME_OVER;
                     const gameOver : GameOver = new GameOver();

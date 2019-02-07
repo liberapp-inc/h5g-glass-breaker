@@ -78,7 +78,6 @@ var TimeText = (function (_super) {
         if (Main.stageLevel == Stage.GAME_OVER) {
             this.timer.stop();
             this.timer.removeEventListener(egret.TimerEvent.TIMER, this.decreaseTime, this);
-            console.log("as");
             this.removeEventListener(egret.Event.ENTER_FRAME, this.update, this);
             TimeText.leftTime = 60;
         }

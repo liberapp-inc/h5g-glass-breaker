@@ -217,7 +217,7 @@ class GeneratePlate extends GameObject {
      * タッチイベント
      * TouchEvent
      */
-    private glassTouch(evt:egret.TouchEvent){
+    public glassTouch(){
 
         this.moveStop();
 
@@ -248,12 +248,14 @@ class GeneratePlate extends GameObject {
             break;
             case GlassPlateType.IRON:
                 //鉄を叩く音
+               
                 const audioIron = new GameAudio("resource/bgm/bell04.mp3");
                 audioIron.startLoad();
                 Main.stageLevel = Stage.GAME_OVER;
-                const gameOver : GameOver = new GameOver();
+/*                const gameOver : GameOver = new GameOver();
                 gameOver.GameOverDisplay();
-                this.addChild(gameOver);
+                this.addChild(gameOver);*/
+                Main.gameOverFlag = true;
 
             break;
         }

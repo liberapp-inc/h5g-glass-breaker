@@ -28,7 +28,7 @@ class GameAudio extends egret.DisplayObjectContainer {
 
     protected onSoundComplete(event:egret.Event):void {
         
-        egret.log("onSoundComplete");
+        //egret.log("onSoundComplete");
     }
 }
 
