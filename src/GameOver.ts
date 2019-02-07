@@ -89,7 +89,8 @@ class GameOver extends GameObject{
         GeneratePlate.breakComboNumber = 0;
         GeneratePlate.breakComboBonus  = 1;
         Main.plateNumber = 0;
-        CreateGameStage.glassGenerateSpeed = 1000;
+        CreateGameStage.glassGenerateSpeed = 500;
+        GeneratePlate.glassPlateMoveSpeedMagnification =1;
         Main.gameOverFlag = false;
 
     }

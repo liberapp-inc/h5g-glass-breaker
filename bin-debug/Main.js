@@ -194,12 +194,18 @@ var Main = (function (_super) {
         switch (TimeText.leftTime) {
             case 60:
                 Main.stageLevel = Stage.STAGE1;
-                Main.glassGenerateSpeed = 600;
+                Main.glassGenerateSpeed = 500;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 1;
                 break;
             case 55:
                 Main.stageLevel = Stage.STAGE2;
                 //ガラスの生成スピードの変更
-                Main.glassGenerateSpeed = 600;
+                Main.glassGenerateSpeed = 400;
                 this.timer.stop();
                 this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
@@ -209,7 +215,7 @@ var Main = (function (_super) {
                 break;
             case 50:
                 Main.stageLevel = Stage.STAGE3;
-                Main.glassGenerateSpeed = 600;
+                Main.glassGenerateSpeed = 300;
                 this.timer.stop();
                 this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
@@ -217,25 +223,45 @@ var Main = (function (_super) {
                 //ガラスの移動スピードの変更
                 GeneratePlate.glassPlateMoveSpeedMagnification = 3;
                 break;
-            case 45:
+            case 40:
                 Main.stageLevel = Stage.STAGE4;
-                Main.glassGenerateSpeed = 500;
+                Main.glassGenerateSpeed = 200;
                 this.timer.stop();
                 this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
                 this.timer.start();
                 //ガラスの移動スピードの変更
-                GeneratePlate.glassPlateMoveSpeedMagnification = 4;
+                GeneratePlate.glassPlateMoveSpeedMagnification = 5;
                 break;
-            case 40:
+            case 30:
                 Main.stageLevel = Stage.STAGE5;
-                Main.glassGenerateSpeed = 400;
+                Main.glassGenerateSpeed = 100;
                 this.timer.stop();
                 this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
                 this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
                 this.timer.start();
                 //ガラスの移動スピードの変更
                 GeneratePlate.glassPlateMoveSpeedMagnification = 10;
+                break;
+            case 20:
+                Main.stageLevel = Stage.STAGE5;
+                Main.glassGenerateSpeed = 100;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 15;
+                break;
+            case 10:
+                Main.stageLevel = Stage.STAGE5;
+                Main.glassGenerateSpeed = 100;
+                this.timer.stop();
+                this.timer = new egret.Timer(Main.glassGenerateSpeed, 0);
+                this.timer.addEventListener(egret.TimerEvent.TIMER, this.generatePlateTimer, this);
+                this.timer.start();
+                //ガラスの移動スピードの変更
+                GeneratePlate.glassPlateMoveSpeedMagnification = 20;
                 break;
         }
     };
