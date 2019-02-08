@@ -48,24 +48,55 @@ var Main = (function (_super) {
     function Main() {
         var _this = _super.call(this) || this;
         _this.generatePlate = [];
-        var assetAdapter = new AssetAdapter();
-        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
-        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+        /*        let assetAdapter = new AssetAdapter();
+                egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+                egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());*/
         Main.stageLevel = Stage.TITLE;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.runGame, _this);
         return _this;
     }
+    Main.prototype.createChildren = function () {
+        _super.prototype.createChildren.call(this);
+        egret.lifecycle.addLifecycleListener(function (context) {
+            // custom lifecycle plugin
+        });
+        egret.lifecycle.onPause = function () {
+            egret.ticker.pause();
+        };
+        egret.lifecycle.onResume = function () {
+            egret.ticker.resume();
+        };
+        //inject the custom material parser
+        //注入自定义的素材解析器
+        var assetAdapter = new AssetAdapter();
+        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
+        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+        this.runGame().catch(function (e) {
+            console.log(e);
+        });
+    };
     /**
      *  リソース準備後にゲームシーンを作成する
     */
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var result, userInfo;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
                         this.createGameScene();
+                        return [4 /*yield*/, RES.getResAsync("description_json")];
+                    case 2:
+                        result = _a.sent();
+                        return [4 /*yield*/, platform.login()];
+                    case 3:
+                        _a.sent();
+                        return [4 /*yield*/, platform.getUserInfo()];
+                    case 4:
+                        userInfo = _a.sent();
+                        console.log(userInfo);
                         return [2 /*return*/];
                 }
             });
@@ -77,25 +108,42 @@ var Main = (function (_super) {
     */
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var e_1;
+            var loadingView, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 4, , 5]);
+                        loadingView = new LoadingUI();
+                        this.stage.addChild(loadingView);
                         return [4 /*yield*/, RES.loadConfig("resource/default.res.json", "resource/")];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, RES.loadGroup("preload")];
+                        return [4 /*yield*/, this.loadTheme()];
                     case 2:
                         _a.sent();
-                        return [3 /*break*/, 4];
+                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
                     case 3:
+                        _a.sent();
+                        this.stage.removeChild(loadingView);
+                        return [3 /*break*/, 5];
+                    case 4:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
+        });
+    };
+    Main.prototype.loadTheme = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            // load skin theme configuration file, you can manually modify the file. And replace the default skin.
+            //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
+            var theme = new eui.Theme("resource/default.thm.json", _this.stage);
+            theme.addEventListener(eui.UIEvent.COMPLETE, function () {
+                resolve();
+            }, _this);
         });
     };
     /**
@@ -266,7 +314,7 @@ var Main = (function (_super) {
     Main.glassGenerateSpeed = 1000;
     Main.gameOverFlag = false;
     return Main;
-}(egret.DisplayObjectContainer));
+}(eui.UILayer));
 __reflect(Main.prototype, "Main");
 // Main Class はここまで
 /**
