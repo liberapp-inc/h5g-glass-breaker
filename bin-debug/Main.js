@@ -161,6 +161,8 @@ var Main = (function (_super) {
     Main.prototype.createGameScene = function () {
         Main.stageWidth = this.stage.stageWidth;
         Main.stageHeight = this.stage.stageHeight;
+        this.stage.orientation = egret.OrientationMode.PORTRAIT;
+        this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
         Main.stageLevel = Stage.TITLE;
         var createGameStage = new CreateGameStage(Main.stageLevel);
         createGameStage.createGameScene();

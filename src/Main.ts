@@ -111,6 +111,8 @@
     private createGameScene(): void {
         Main.stageWidth = this.stage.stageWidth;
         Main.stageHeight = this.stage.stageHeight;
+        this.stage.orientation = egret.OrientationMode.PORTRAIT;
+        this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
         
         Main.stageLevel = Stage.TITLE;
         const createGameStage = new CreateGameStage(Main.stageLevel);
